@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Shader.h"
 
 App::App() {}
 
@@ -70,18 +71,18 @@ void App::run()
 bool App::init()
 {
 	if (!App::createContext()) {
-		cout << "Failed to create GLFW window" << endl;
+		std::cout << "Failed to create GLFW window" << std::endl;
 		terminate();
 		return false;
 	}
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		cout << "Failed to initialize GLAD" << endl;
+		std::cout << "Failed to initialize GLAD" << std::endl;
 		return false;
 	}
 
-	cout << "GL version: " << glGetString(GL_VERSION) << endl;
+	std::cout << "GL version: " << glGetString(GL_VERSION) << std::endl;
 
 	return true;
 }
@@ -125,49 +126,21 @@ void App::processInput()
 }
 
 /// <summary>
-/// Compiles a shader
-/// </summary>
-/// <param name="shaderType">The type of the shader to compile e.g. GL_VERTEX_SHADER</param>
-/// <param name="shaderSource">The shader source</param>
-/// <returns></returns>
-unsigned int App::compileShader(unsigned int shaderType, const string& shaderSource)
-{
-	unsigned int shader = glCreateShader(shaderType);
-	const char* src = shaderSource.c_str();
-	glShaderSource(shader, 1, &src, nullptr);
-	glCompileShader(shader);
-
-   int success;
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-	if (success == GL_FALSE)
-	{
-		int length;
-		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
-		char* message = (char*)_malloca(length * sizeof(char));
-		glGetShaderInfoLog(shader, length, &length, message);
-		cout << "Failed to compile " << (shaderType == GL_VERTEX_SHADER ? "vertex" : "fragment") << endl;
-		cout << message << endl;
-		glDeleteShader(shader);
-		return 0;
-	}
-
-	return shader;
-}
-
-/// <summary>
 /// Compiles the vertex and fragment shader and links the program
 /// </summary>
 /// <returns>returns the linked program</returns>
 unsigned int App::createShader()
 {
 	unsigned int program = glCreateProgram();
-	unsigned int vertexShader = compileShader(GL_VERTEX_SHADER, VertexShader);
-	unsigned int fragmentShader = compileShader(GL_FRAGMENT_SHADER , FragmentShader);
+	Shader* vs = new Shader("res/VertexShader.vert", GL_VERTEX_SHADER);
+	Shader* fs = new Shader("res/FragmentShader.frag", GL_FRAGMENT_SHADER);
+
+	unsigned int vertexShader = vs->compileShader();
+	unsigned int fragmentShader = fs->compileShader();
 
 	glAttachShader(program, vertexShader);
 	glAttachShader(program, fragmentShader);
 	glLinkProgram(program);
-	//glValidateProgram(program);
 
 	int success;
 	glGetProgramiv(program, GL_LINK_STATUS, &success);
@@ -177,11 +150,13 @@ unsigned int App::createShader()
 		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
 		char* message = (char*)malloc(length * sizeof(char));
 		glGetProgramInfoLog(program, length, &length, message);
-		cout << "Failed Program linking : " << message << endl;
+		std::cout << "Failed Program linking : " << message << std::endl;
 	}
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
+	delete vs;
+	delete fs;
 
 	return program;
 }
@@ -207,31 +182,31 @@ void App::checkGLError()
 		switch (error) 
 		{
 		case GL_INVALID_ENUM:
-			cout << "GL_INVALID_ENUM - An unacceptable value is specified for an enumerated argument." << endl;
+			std::cout << "GL_INVALID_ENUM - An unacceptable value is specified for an enumerated argument." << std::endl;
 			break;
 
 		case GL_INVALID_VALUE:
-			cout << "GL_INVALID_VALUE - A numeric argument is out of range." << endl;
+			std::cout << "GL_INVALID_VALUE - A numeric argument is out of range." << std::endl;
 			break;
 
 		case GL_INVALID_OPERATION:
-			cout << "GL_INVALID_OPERATION - The specified operation is not allowed in the current state." << endl;
+			std::cout << "GL_INVALID_OPERATION - The specified operation is not allowed in the current state." << std::endl;
 			break;
 
 		case GL_INVALID_FRAMEBUFFER_OPERATION:
-			cout << "GL_INVALID_FRAMEBUFFER_OPERATION - The framebuffer object is not complete." << endl;
+			std::cout << "GL_INVALID_FRAMEBUFFER_OPERATION - The framebuffer object is not complete." << std::endl;
 			break;
 
 		case GL_OUT_OF_MEMORY:
-			cout << "GL_OUT_OF_MEMORY - There is not enough memory left to execute the command." << endl;
+			std::cout << "GL_OUT_OF_MEMORY - There is not enough memory left to execute the command." << std::endl;
 			break;
 
 		case GL_STACK_UNDERFLOW:
-			cout << "GL_STACK_UNDERFLOW - An attempt has been made to perform an operation that would cause an internal stack to underflow." << endl;
+			std::cout << "GL_STACK_UNDERFLOW - An attempt has been made to perform an operation that would cause an internal stack to underflow." << std::endl;
 			break;
 
 		case GL_STACK_OVERFLOW:
-			cout << "GL_STACK_OVERFLOW - An attempt has been made to perform an operation that would cause an internal stack to overflow." << endl;
+			std::cout << "GL_STACK_OVERFLOW - An attempt has been made to perform an operation that would cause an internal stack to overflow." << std::endl;
 			break;
 		}	
 	}
