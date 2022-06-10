@@ -18,6 +18,21 @@
     <ClInclude Include="src\Shader.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="src\Draw.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VertexBufferObject.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ElementBufferObject.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VertexArrayObject.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VertexBufferLayout.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Erudite.cpp">
@@ -30,6 +45,21 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="src\Shader.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Draw.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VertexBufferObject.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ElementBufferObject.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VertexArrayObject.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VertexBufferLayout.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

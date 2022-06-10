@@ -1,6 +1,10 @@
 #include "App.h"
 #include "Shader.h"
 
+#include "VertexBufferObject.h"
+#include "ElementBufferObject.h"
+#include "VertexArrayObject.h"
+
 App::App() {}
 
 App::~App() {}
@@ -14,30 +18,25 @@ void App::run()
 		return;
 
 	float vertices[] = {
-		 0.0f,  0.5f,
-		 0.5f, -0.5f,
 		-0.5f, -0.5f,
+		 0.5f, -0.5f,
+		 0.5f,  0.5f,
+		 -0.5f, 0.5f,
 	};
 
 	unsigned int indices[] = {
-		0, 1, 2,	// Triangle 1
+		0, 1, 2,
+		2, 3, 0
 	};
 
-	unsigned int VAO, VBO, EBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
+	VertexBufferLayout layout;
+	layout.push<float>(2);
 
-	glBindVertexArray(VAO);
+	VertexArrayObject vertexArray;
+	VertexBufferObject vertexBuffer(vertices, std::size(vertices) * sizeof(float));
+	vertexArray.addBuffer(vertexBuffer, layout);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+	ElementBufferObject elementBuffer(indices, std::size(indices));
 
 	unsigned int shaderProgram = createShader();
 	glUseProgram(shaderProgram);
@@ -51,9 +50,7 @@ void App::run()
 		glClearColor(0.2f, 0.2f, 0.4f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		int size;
-		glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &size);
-		glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, std::size(indices), GL_UNSIGNED_INT, 0);
 		checkGLError();
 
 		glfwSwapBuffers(m_window);
