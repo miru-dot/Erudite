@@ -1,5 +1,5 @@
-/Erudite/Debug
-/Debug
+# Excluded folder
+/bin
 /.vs
 
 # Prerequisites
