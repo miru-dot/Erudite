@@ -1,5 +1,7 @@
 #include "Draw.h"
 
+#include <corecrt_math_defines.h>
+
 void Draw::rectangle(float width, float length)
 {
 	float x = length / 2.0f;
@@ -75,6 +77,51 @@ void Draw::cube(float width, float length, float hight)
 	VertexArrayObject vertexArray;
 	VertexBufferObject vertexBuffer(vertices, verticesSize * sizeof(float));
 	ElementBufferObject elementBuffer(indices, indicesSize);
+	vertexArray.addBuffer(vertexBuffer, layout);
+	draw(vertexArray, elementBuffer);
+}
+
+void Draw::cone(float hight, float radius, unsigned int slices)
+{
+	float radSlice = 360.0f / slices * M_PI / 180.0f;
+
+	std::vector<float> vertices;
+	float y = hight / 2.0f;
+
+	// peak
+	vertices.push_back(0.0f);
+	vertices.push_back(y);
+	vertices.push_back(0.0f);
+
+	// slices
+	for (int i = 0; i < slices; ++i) {
+		float rad = radSlice * i;
+
+		float x = radius * cos(rad);
+		float z = radius * sin(rad);
+
+		vertices.push_back(x);
+		vertices.push_back(-y);
+		vertices.push_back(z);
+	}
+
+	std::vector<unsigned int> indices;
+	unsigned int indicesIndex = 1;
+	for (int i = 0; i < slices; i++)
+	{
+		indices.push_back(0);	// vertex 0 is the peak of the cone
+		unsigned int tmp = indicesIndex + 1;
+		indices.push_back(tmp > slices ? 1 : tmp);
+		indices.push_back(indicesIndex);
+		indicesIndex++;
+	}
+
+	VertexBufferLayout layout;
+	layout.push<float>(3);
+
+	VertexArrayObject vertexArray;
+	VertexBufferObject vertexBuffer(&vertices[0], std::size(vertices) * sizeof(float));
+	ElementBufferObject elementBuffer(&indices[0], std::size(indices));
 	vertexArray.addBuffer(vertexBuffer, layout);
 	draw(vertexArray, elementBuffer);
 }

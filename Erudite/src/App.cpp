@@ -30,7 +30,8 @@ void App::run()
 		Draw::clear();
 	
 		//Draw::rectangle(1.0f, 1.0f);
-		Draw::cube(1.0f, 1.0f, 1.5f);
+		//Draw::cube(1.0f, 1.0f, 1.5f);
+		Draw::cone(1.0f, 0.5, 8);
 
 		checkGLError();
 
