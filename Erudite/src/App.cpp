@@ -5,6 +5,8 @@
 #include "ElementBufferObject.h"
 #include "VertexArrayObject.h"
 
+#include "Draw.h"
+
 App::App() {}
 
 App::~App() {}
@@ -17,40 +19,19 @@ void App::run()
 	if (!init())
 		return;
 
-	float vertices[] = {
-		-0.5f, -0.5f,
-		 0.5f, -0.5f,
-		 0.5f,  0.5f,
-		 -0.5f, 0.5f,
-	};
-
-	unsigned int indices[] = {
-		0, 1, 2,
-		2, 3, 0
-	};
-
-	VertexBufferLayout layout;
-	layout.push<float>(2);
-
-	VertexArrayObject vertexArray;
-	VertexBufferObject vertexBuffer(vertices, std::size(vertices) * sizeof(float));
-	vertexArray.addBuffer(vertexBuffer, layout);
-
-	ElementBufferObject elementBuffer(indices, std::size(indices));
-
 	unsigned int shaderProgram = createShader();
 	glUseProgram(shaderProgram);
 
-	checkGLError();
-
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	while (!glfwWindowShouldClose(m_window))
 	{
 		processInput();
 
-		glClearColor(0.2f, 0.2f, 0.4f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		Draw::clear();
+	
+		//Draw::rectangle(1.0f, 1.0f);
+		Draw::cube(1.0f, 1.0f, 1.5f);
 
-		glDrawElements(GL_TRIANGLES, std::size(indices), GL_UNSIGNED_INT, 0);
 		checkGLError();
 
 		glfwSwapBuffers(m_window);
@@ -129,11 +110,11 @@ void App::processInput()
 unsigned int App::createShader()
 {
 	unsigned int program = glCreateProgram();
-	Shader* vs = new Shader("res/VertexShader.vert", GL_VERTEX_SHADER);
-	Shader* fs = new Shader("res/FragmentShader.frag", GL_FRAGMENT_SHADER);
+	Shader vs("res/VertexShader.vert", GL_VERTEX_SHADER);
+	Shader fs("res/FragmentShader.frag", GL_FRAGMENT_SHADER);
 
-	unsigned int vertexShader = vs->compileShader();
-	unsigned int fragmentShader = fs->compileShader();
+	unsigned int vertexShader = vs.compileShader();
+	unsigned int fragmentShader = fs.compileShader();
 
 	glAttachShader(program, vertexShader);
 	glAttachShader(program, fragmentShader);
@@ -152,8 +133,6 @@ unsigned int App::createShader()
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
-	delete vs;
-	delete fs;
 
 	return program;
 }
