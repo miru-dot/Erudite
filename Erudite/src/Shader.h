@@ -6,11 +6,21 @@
 
 class Shader {
 public:
-   Shader(std::string shaderSource, unsigned int shaderType);        // creates a new shader objects with the shader source and type
+   Shader(const std::string& vertexShaderFile, 
+      const std::string& fragementShaderFile);                       // creates a new shader objects with the shader source and type
    ~Shader();
-   unsigned int compileShader();                                     // compiles a shader
+   void bind();                                                      // bind shader (program)
+   void unbind();                                                    // unbind shader (program)
+   void setUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
+   unsigned int getUniformLocation(const std::string& name);
 
 private:
-   std::string* m_shaderSource;                                      // the shader source as string
-   unsigned int m_shaderType;                                        // the shader type
+   static void parseSource(std::string sourcefile, std::string* content);
+   unsigned int compileShader(unsigned int shaderType,
+      std::string& shaderSource);                                    // compiles a shader
+   unsigned int createShader();                                      // compiles, linkes and builds shaders
+
+   unsigned int m_id;                                                // shader id
+   std::string* m_vertexShaderSource = new std::string();            // the vertex shader source
+   std::string* m_fragmentShaderSource = new std::string();          // the fragement shader source
 };

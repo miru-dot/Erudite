@@ -1,13 +1,15 @@
 #include "App.h"
 
-#include "Shader.h"
-#include "Renderer.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 #include "VertexBufferObject.h"
 #include "ElementBufferObject.h"
 #include "VertexArrayObject.h"
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+#include "Renderer.h"
+#include "Shader.h"
+#include <string>
 
 App::App() {}
 
@@ -22,8 +24,8 @@ void App::run()
 		return;
 
 	Renderer::polygonMode(GL_FILL);
-	unsigned int shaderProgram = createShader();
-	glUseProgram(shaderProgram);
+	Shader shader("res/VertexShader.vert", "res/FragmentShader.frag");
+	shader.bind();
 
 	while (!glfwWindowShouldClose(m_window))
 	{
@@ -42,7 +44,6 @@ void App::run()
 		glfwPollEvents();
 	}
 
-	glDeleteProgram(shaderProgram);
 	terminate();
 }
 
@@ -97,40 +98,6 @@ bool App::createContext()
 	glfwSetKeyCallback(m_window, keyPressedCallback);
 
 	return true;
-}
-
-/// <summary>
-/// Compiles the vertex and fragment shader and links the program
-/// </summary>
-/// <returns>returns the linked program</returns>
-unsigned int App::createShader()
-{
-	unsigned int program = glCreateProgram();
-	Shader vs("res/VertexShader.vert", GL_VERTEX_SHADER);
-	Shader fs("res/FragmentShader.frag", GL_FRAGMENT_SHADER);
-
-	unsigned int vertexShader = vs.compileShader();
-	unsigned int fragmentShader = fs.compileShader();
-
-	glAttachShader(program, vertexShader);
-	glAttachShader(program, fragmentShader);
-	glLinkProgram(program);
-
-	int success;
-	glGetProgramiv(program, GL_LINK_STATUS, &success);
-	if (success == GL_FALSE)
-	{
-		int length;
-		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
-		char* message = (char*)malloc(length * sizeof(char));
-		glGetProgramInfoLog(program, length, &length, message);
-		std::cout << "Failed Program linking : " << message << std::endl;
-	}
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
-	return program;
 }
 
 /// <summary>

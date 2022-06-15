@@ -14,8 +14,7 @@ private:
    bool init();                                                      // initalizes the programm   
    void terminate();                                                 // terminates the programm 
    bool createContext();                                             // creates GLFW window used as render context 
-   unsigned int createShader();                                      // compiles, linkes and builds shaders
-
+  
    static void framebufferSizeCallback(GLFWwindow* window,           // called if the window is resized
       int width, int height);
    static void keyPressedCallback(GLFWwindow* window, int key,
