@@ -1,11 +1,13 @@
 #include "App.h"
-#include "Shader.h"
 
+#include "Shader.h"
+#include "Renderer.h"
 #include "VertexBufferObject.h"
 #include "ElementBufferObject.h"
 #include "VertexArrayObject.h"
 
-#include "Renderer.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 App::App() {}
 
@@ -19,10 +21,10 @@ void App::run()
 	if (!init())
 		return;
 
+	Renderer::polygonMode(GL_FILL);
 	unsigned int shaderProgram = createShader();
 	glUseProgram(shaderProgram);
 
-	Renderer::polygonMode(GL_FILL);
 	while (!glfwWindowShouldClose(m_window))
 	{
 		Renderer::clear();
