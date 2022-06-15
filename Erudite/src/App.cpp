@@ -5,7 +5,7 @@
 #include "ElementBufferObject.h"
 #include "VertexArrayObject.h"
 
-#include "Draw.h"
+#include "Renderer.h"
 
 App::App() {}
 
@@ -22,16 +22,17 @@ void App::run()
 	unsigned int shaderProgram = createShader();
 	glUseProgram(shaderProgram);
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	Renderer::polygonMode(GL_FILL);
 	while (!glfwWindowShouldClose(m_window))
 	{
-		processInput();
-
-		Draw::clear();
+		Renderer::clear();
 	
-		//Draw::rectangle(1.0f, 1.0f);
-		//Draw::cube(1.0f, 1.0f, 1.5f);
-		Draw::cone(1.0f, 0.5, 8);
+		if (glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_PRESS)
+			Renderer::rectangle(1.0f, 1.0f);
+		else if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
+			Renderer::cube(1.0f, 1.0f, 1.5f);
+		else if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_PRESS)
+			Renderer::cone(1.0f, 0.5, 8);
 
 		checkGLError();
 
@@ -91,17 +92,9 @@ bool App::createContext()
 
 	glfwMakeContextCurrent(m_window);
 	glfwSetFramebufferSizeCallback(m_window, framebufferSizeCallback);
+	glfwSetKeyCallback(m_window, keyPressedCallback);
 
 	return true;
-}
-
-/// <summary>
-/// Process window keyboard input
-/// </summary>
-void App::processInput()
-{
-	if (m_window && glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(m_window, true);
 }
 
 /// <summary>
@@ -147,6 +140,25 @@ unsigned int App::createShader()
 void App::framebufferSizeCallback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
+}
+
+/// <summary>
+/// Kayboard input callback
+/// </summary>
+/// <param name="window">The window</param>
+/// <param name="key">The keycode</param>
+/// <param name="scancode"></param>
+/// <param name="action">The action is one of GLFW_PRESS, GLFW_REPEAT or GLFW_RELEASE</param>
+/// <param name="mods"></param>
+void App::keyPressedCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (window == nullptr)
+		return;
+
+	if (key == GLFW_KEY_TAB && action == GLFW_PRESS)
+		Renderer::switchPolygonMode();
+	else if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
 }
 
 /// <summary>

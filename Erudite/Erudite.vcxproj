@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\App.h" />
-    <ClInclude Include="src\Draw.h" />
+    <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\ElementBufferObject.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\VertexArrayObject.h" />
@@ -29,7 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
-    <ClCompile Include="src\Draw.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\ElementBufferObject.cpp" />
     <ClCompile Include="src\Erudite.cpp" />
     <ClCompile Include="src\Shader.cpp" />

@@ -18,7 +18,7 @@
     <ClInclude Include="src\Shader.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="src\Draw.h">
+    <ClInclude Include="src\Renderer.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="src\VertexBufferObject.h">
@@ -47,7 +47,7 @@
     <ClCompile Include="src\Shader.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="src\Draw.cpp">
+    <ClCompile Include="src\Renderer.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="src\VertexBufferObject.cpp">

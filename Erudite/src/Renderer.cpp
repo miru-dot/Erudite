@@ -1,8 +1,8 @@
-#include "Draw.h"
+#include "Renderer.h"
 
 #include <corecrt_math_defines.h>
 
-void Draw::rectangle(float width, float length)
+void Renderer::rectangle(float width, float length)
 {
 	float x = length / 2.0f;
 	float y = width / 2.0f;
@@ -31,7 +31,7 @@ void Draw::rectangle(float width, float length)
 	draw(vertexArray, elementBuffer);
 }
 
-void Draw::cube(float width, float length, float hight)
+void Renderer::cube(float width, float length, float hight)
 {
 	float x = length / 2.0f;
 	float y = hight / 2.0f;
@@ -81,7 +81,7 @@ void Draw::cube(float width, float length, float hight)
 	draw(vertexArray, elementBuffer);
 }
 
-void Draw::cone(float hight, float radius, unsigned int slices)
+void Renderer::cone(float hight, float radius, unsigned int slices)
 {
 	float radSlice = 360.0f / slices * M_PI / 180.0f;
 
@@ -126,7 +126,7 @@ void Draw::cone(float hight, float radius, unsigned int slices)
 	draw(vertexArray, elementBuffer);
 }
 
-void Draw::draw(const VertexArrayObject& vertexArray, const ElementBufferObject& elementBuffer)
+void Renderer::draw(const VertexArrayObject& vertexArray, const ElementBufferObject& elementBuffer)
 {
 	vertexArray.bind();
 	elementBuffer.bind();
@@ -134,7 +134,23 @@ void Draw::draw(const VertexArrayObject& vertexArray, const ElementBufferObject&
 	glDrawElements(GL_TRIANGLES, elementBuffer.getCount(), GL_UNSIGNED_INT, 0);
 }
 
-void Draw::clear()
+void Renderer::clear()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+/// <summary>
+/// Controls the interpretation of polygons for rasterization
+/// </summary>
+/// <param name="mode">GL_POINT, GL_LINE or GL_FILL</param>
+void Renderer::polygonMode(unsigned int mode)
+{
+	glPolygonMode(GL_FRONT_AND_BACK, mode);
+}
+
+void Renderer::switchPolygonMode()
+{
+	int mode;
+	glGetIntegerv(GL_POLYGON_MODE, &mode);
+	polygonMode(mode == GL_FILL ? GL_LINE : GL_FILL);
 }

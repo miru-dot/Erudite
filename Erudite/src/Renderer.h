@@ -2,7 +2,7 @@
 #include "VertexArrayObject.h"
 #include "ElementBufferObject.h"
 
-class Draw
+class Renderer
 {
 public:
    static void rectangle(float width, float length);
@@ -12,4 +12,6 @@ public:
    static void draw(const VertexArrayObject& vertexArray, const ElementBufferObject& elementBuffer);
 
    static void clear();
+   static void polygonMode(unsigned int mode);
+   static void switchPolygonMode();
 };
