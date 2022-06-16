@@ -5,6 +5,7 @@
 class Renderer
 {
 public:
+   static void triangle(float size);
    static void rectangle(float width, float length);
    static void cube(float width, float length, float hight);
    static void cone(float hight, float radius, unsigned int slices);

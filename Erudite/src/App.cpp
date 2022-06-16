@@ -1,8 +1,5 @@
 #include "App.h"
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-
 #include "VertexBufferObject.h"
 #include "ElementBufferObject.h"
 #include "VertexArrayObject.h"
@@ -11,9 +8,15 @@
 #include "Shader.h"
 #include <string>
 
-App::App() {}
+App::App() 
+{
+	m_rotAxis = &m_axisY;
+	m_geometry = RECTANGLE;
+}
 
-App::~App() {}
+App::~App() 
+{
+}
 
 /// <summary>
 /// App main loop
@@ -23,20 +26,40 @@ void App::run()
 	if (!init())
 		return;
 
-	Renderer::polygonMode(GL_FILL);
 	Shader shader("res/VertexShader.vert", "res/FragmentShader.frag");
 	shader.bind();
+	shader.setU4f("u_color", 0.2f, 0.2f, 0.4f, 1.0f);
 
+	float ratio = (float)m_width / (float)m_height;
+
+	glm::mat4 proj = glm::perspective(90.0f, ratio, 0.1f, 100.0f);
+	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
+	glm::mat4 model = glm::mat4(1.0f);	
+
+	float deltaTime, start = glfwGetTime(), now = start;
+
+	Renderer::polygonMode(GL_FILL);
 	while (!glfwWindowShouldClose(m_window))
 	{
+		GLfloat time = glfwGetTime();
+		deltaTime = time - now;
+		now = time;
+
+		handleInput();
+
 		Renderer::clear();
 	
-		if (glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_PRESS)
-			Renderer::rectangle(1.0f, 1.0f);
-		else if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
-			Renderer::cube(1.0f, 1.0f, 1.5f);
-		else if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_PRESS)
-			Renderer::cone(1.0f, 0.5, 8);
+		model = glm::rotate(model, glm::radians(deltaTime * 35.0f), *m_rotAxis);
+		glm::mat4 mvp = proj * view * model;
+		shader.setUMat4("u_mvp", mvp);
+
+		switch (m_geometry) 
+		{
+		case TRIANGLE: Renderer::triangle(1.0f); break;
+		case RECTANGLE: Renderer::rectangle(1.0f, 1.0f); break;
+		case QUBE: Renderer::cube(1.2f, 0.7f, 1.4f); break;
+		case CONE: Renderer::cone(1.2f, 0.6, 16); break;
+		}
 
 		checkGLError();
 
@@ -45,6 +68,27 @@ void App::run()
 	}
 
 	terminate();
+}
+
+/// <summary>
+/// Handle window input
+/// </summary>
+void App::handleInput()
+{
+	if (glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_PRESS)
+		m_geometry = TRIANGLE;
+	else if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
+		m_geometry = RECTANGLE;
+	else if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_PRESS)
+		m_geometry = QUBE;
+	else if (glfwGetKey(m_window, GLFW_KEY_R) == GLFW_PRESS)
+		m_geometry = CONE;
+	else if (glfwGetKey(m_window, GLFW_KEY_Z) == GLFW_PRESS)
+		m_rotAxis = &m_axisY;
+	else if (glfwGetKey(m_window, GLFW_KEY_X) == GLFW_PRESS)
+		m_rotAxis = &m_axisX;
+	else if (glfwGetKey(m_window, GLFW_KEY_C) == GLFW_PRESS)
+		m_rotAxis = &m_axisZ;
 }
 
 /// <summary>
@@ -89,7 +133,7 @@ bool App::createContext()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	m_window = glfwCreateWindow(m_width, m_length, "SAE OpenGL", NULL, NULL);
+	m_window = glfwCreateWindow(m_width, m_height, "I BIMS DE SILIAN", NULL, NULL);
 	if (m_window == nullptr)
 		return false;
 

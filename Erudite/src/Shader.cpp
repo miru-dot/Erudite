@@ -20,8 +20,8 @@ Shader::~Shader()
 {
 	if (m_vertexShaderSource)
 		delete m_vertexShaderSource;
-	if (m_vertexShaderSource)
-		delete m_vertexShaderSource;
+	if (m_fragmentShaderSource)
+		delete m_fragmentShaderSource;
 
 	glDeleteProgram(m_id);
 }
@@ -118,13 +118,24 @@ void Shader::unbind()
 	glUseProgram(0);
 }
 
-void Shader::setUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
+void Shader::setU4f(const std::string& name, float v0, float v1, float v2, float v3)
 {
 	glUniform4f(getUniformLocation(name), v0, v1, v2, v3);
 }
 
+void Shader::setUMat4(const std::string& name, glm::mat4 matrix)
+{
+	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &matrix[0][0]);
+}
+
 unsigned int Shader::getUniformLocation(const std::string& name)
 {
+	if (m_unformLocations.find(name) != m_unformLocations.end())
+		return m_unformLocations[name];
 
-	return 0;
+	int location = glGetUniformLocation(m_id, name.c_str());
+	if (location == -1)
+		std::cout << "error: unform " << name << "does not exist!" << std::endl;
+
+	return m_unformLocations[name] = location;
 }

@@ -1,8 +1,13 @@
 #pragma once
 #include <fstream>
 #include <string>
-#include <glad/glad.h>
 #include <iostream>
+#include <unordered_map>
+
+#include "glad/glad.h"
+
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 class Shader {
 public:
@@ -11,8 +16,10 @@ public:
    ~Shader();
    void bind();                                                      // bind shader (program)
    void unbind();                                                    // unbind shader (program)
-   void setUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
-   unsigned int getUniformLocation(const std::string& name);
+   void setU4f(const std::string& name, float v0, float v1, 
+      float v2, float v3);                                           // set 4 float uniform
+   void setUMat4(const std::string& name, glm::mat4 matrix); // set matrix 4 uniform
+   unsigned int getUniformLocation(const std::string& name);         // the location of a uniform in the shader
 
 private:
    static void parseSource(std::string sourcefile, std::string* content);
@@ -23,4 +30,5 @@ private:
    unsigned int m_id;                                                // shader id
    std::string* m_vertexShaderSource = new std::string();            // the vertex shader source
    std::string* m_fragmentShaderSource = new std::string();          // the fragement shader source
+   std::unordered_map<std::string, int> m_unformLocations;           // holds the uniform locations
 };

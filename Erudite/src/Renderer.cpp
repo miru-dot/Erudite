@@ -2,6 +2,32 @@
 
 #include <corecrt_math_defines.h>
 
+void Renderer::triangle(float size)
+{
+	float p = size / 2.0f;
+
+	const unsigned int verticesSize = 8;
+	float vertices[verticesSize] = {
+		 0.0f,  p,	// top
+		 p,    -p,	// right top
+		-p,    -p,	// left bottom
+	};
+
+	const unsigned int indicesSize = 6;
+	unsigned int indices[indicesSize] = {
+		0, 1, 2,	// triangle 1
+	};
+
+	VertexBufferLayout layout;
+	layout.push<float>(2);
+
+	VertexArrayObject vertexArray;
+	VertexBufferObject vertexBuffer(vertices, verticesSize * sizeof(float));
+	ElementBufferObject elementBuffer(indices, indicesSize);
+	vertexArray.addBuffer(vertexBuffer, layout);
+	draw(vertexArray, elementBuffer);
+}
+
 void Renderer::rectangle(float width, float length)
 {
 	float x = length / 2.0f;
