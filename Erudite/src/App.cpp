@@ -32,18 +32,21 @@ void App::run()
 
 	float ratio = (float)m_width / (float)m_height;
 
+	/*
+	float halfW = ((float)m_width / 16.0f) / 2.0f, halfH = ((float)m_height / 9) / 2.0f;
+	glm::mat4 proj = glm::ortho(-halfW, halfW, -halfH, halfH, 0.1f, 1000.0f);
+	*/
+
 	glm::mat4 proj = glm::perspective(90.0f, ratio, 0.1f, 100.0f);
 	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
 	glm::mat4 model = glm::mat4(1.0f);	
 
-	float deltaTime, start = glfwGetTime(), now = start;
-
 	Renderer::polygonMode(GL_FILL);
+	
+	float deltaTime = 0.0f;
 	while (!glfwWindowShouldClose(m_window))
 	{
-		GLfloat time = glfwGetTime();
-		deltaTime = time - now;
-		now = time;
+		double start = glfwGetTime();
 
 		handleInput();
 
@@ -65,6 +68,8 @@ void App::run()
 
 		glfwSwapBuffers(m_window);
 		glfwPollEvents();
+
+		deltaTime = glfwGetTime() - start;
 	}
 
 	terminate();
