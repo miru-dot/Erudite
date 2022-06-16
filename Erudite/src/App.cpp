@@ -55,10 +55,10 @@ void App::run()
 
 		switch (m_geometry) 
 		{
-		case TRIANGLE: Renderer::triangle(1.0f); break;
-		case RECTANGLE: Renderer::rectangle(1.0f, 1.0f); break;
-		case QUBE: Renderer::cube(1.2f, 0.7f, 1.4f); break;
-		case CONE: Renderer::cone(1.2f, 0.6, 16); break;
+			case TRIANGLE: Renderer::triangle(1.5f); break;
+			case RECTANGLE: Renderer::rectangle(1.0f, 1.5f); break;
+			case QUBE: Renderer::cube(1.2f, 0.7f, 1.4f); break;
+			case CONE: Renderer::cone(1.5f, 0.75f, 16.0f); break;
 		}
 
 		checkGLError();

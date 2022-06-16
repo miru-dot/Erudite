@@ -6,16 +6,16 @@ void Renderer::triangle(float size)
 {
 	float p = size / 2.0f;
 
-	const unsigned int verticesSize = 8;
+	const unsigned int verticesSize = 9;
 	float vertices[verticesSize] = {
 		 0.0f,  p,	// top
-		 p,    -p,	// right top
-		-p,    -p,	// left bottom
+		 p,    -p,	// right
+		-p,    -p,	// left
 	};
 
-	const unsigned int indicesSize = 6;
+	const unsigned int indicesSize = 3;
 	unsigned int indices[indicesSize] = {
-		0, 1, 2,	// triangle 1
+		0, 1, 2,
 	};
 
 	VertexBufferLayout layout;
@@ -82,20 +82,20 @@ void Renderer::cube(float width, float length, float hight)
 		1, 3, 2,  // front face triangle 2
 
 		5, 4, 7,  // back face triangle 1
-		5, 6, 7,  // back face triangle 2
+		4, 6, 7,  // back face triangle 2
 
 		4, 5, 0,  // top face triangle 1
 		5, 1, 0,  // top face triangle 2
-
-		2, 3, 7,  // bottom face triangle 1
-		3, 6, 7,  // bottom face triangle 2
+				
+		2, 3, 6,  // bottom face triangle 1
+		3, 7, 6,  // bottom face triangle 2
 
 		4, 0, 6,  // left face triangle 1
 		0, 2, 6,  // left face triangle 2
 
 		1, 5, 3,  // right face triangle 1
-		5, 7, 3   // right face triangle 2
-	};
+		5, 7, 3   // right face triangle 2 
+	}; 
 
 	VertexBufferLayout layout;
 	layout.push<float>(3);
