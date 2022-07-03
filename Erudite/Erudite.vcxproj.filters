@@ -10,6 +10,9 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{fa8d7778-cc0f-4c1a-91d9-81c08cae1703}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\Textures">
+      <UniqueIdentifier>{8671a161-7f2a-4348-93a0-47c8dda29d40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\App.h">
@@ -31,6 +34,12 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="src\VertexBufferLayout.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\includes\stb_image\stb_image.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,6 +71,12 @@
     <ClCompile Include="src\VertexBufferLayout.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\includes\stb_image\stb_image.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\VertexShader.vert">
@@ -70,5 +85,13 @@
     <None Include="res\FragmentShader.frag">
       <Filter>Resources</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\snow-forest.jpg">
+      <Filter>Resources\Textures</Filter>
+    </Image>
+    <Image Include="res\textures\default.png">
+      <Filter>Resources\Textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>

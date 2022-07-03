@@ -6,11 +6,19 @@ void Renderer::triangle(float size, glm::vec4 color)
 {
 	float p = size / 2.0f;
 
+	/*
 	const unsigned int verticesSize = 18;
 	float vertices[verticesSize] = {
 		 0.0f,  p, color.r, color.g, color.b, color.a,	// top
 		 p,    -p, color.r, color.g, color.b, color.a,	// right
 		-p,    -p, color.r, color.g, color.b, color.a	// left
+	};*/
+
+	const unsigned int verticesSize = 18;
+	float vertices[verticesSize] = {
+		 0.0f,  p, 1.0f, 0.0f, 0.0f, 1.0f,	// top
+		 p,    -p, 0.0f, 1.0f, 0.0f, 1.0f,	// right
+		-p,    -p, 0.0f, 0.0f, 1.0f, 1.0f	// left
 	};
 
 	const unsigned int indicesSize = 3;
@@ -34,12 +42,12 @@ void Renderer::rectangle(float width, float length, glm::vec4 color)
 	float x = length / 2.0f;
 	float y = width / 2.0f;
 
-	const unsigned int verticesSize = 24;
+	const unsigned int verticesSize = 32;
 	float vertices[verticesSize] = {
-		-x,  y, color.r, color.g, color.b, color.a,	// left top
-		 x,  y, color.r, color.g, color.b, color.a,	// right top
-		-x, -y, color.r, color.g, color.b, color.a,	// left bottom
-		 x, -y, color.r, color.g, color.b, color.a	// right bottom
+		-x,  y, color.r, color.g, color.b, color.a, 0.0f, 0.0f,	// left top
+		 x,  y, color.r, color.g, color.b, color.a, 1.0f, 0.0f,	// right top
+		-x, -y, color.r, color.g, color.b, color.a, 1.0f, 1.0f,	// left bottom
+		 x, -y, color.r, color.g, color.b, color.a, 0.0f, 1.0f	// right bottom
 	};
 
 	const unsigned int indicesSize = 6;
@@ -51,6 +59,7 @@ void Renderer::rectangle(float width, float length, glm::vec4 color)
 	VertexBufferLayout layout;
 	layout.push<float>(2);	// position
 	layout.push<float>(4);	// color
+	layout.push<float>(2);	// texture coordinates
 
 	VertexArrayObject vertexArray;
 	VertexBufferObject vertexBuffer(vertices, verticesSize * sizeof(float));
