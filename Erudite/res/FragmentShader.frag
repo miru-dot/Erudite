@@ -1,10 +1,11 @@
 #version 460 core
 
-layout (location = 0) out vec4 color;
+out vec4 color;
 
+smooth in vec4 fragmentColor;
 uniform vec4 u_color;
 
 void main()
 {
-    color = u_color;
+    color = fragmentColor;
 };

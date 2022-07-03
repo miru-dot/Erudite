@@ -2,15 +2,15 @@
 
 #include <corecrt_math_defines.h>
 
-void Renderer::triangle(float size)
+void Renderer::triangle(float size, glm::vec4 color)
 {
 	float p = size / 2.0f;
 
-	const unsigned int verticesSize = 9;
+	const unsigned int verticesSize = 18;
 	float vertices[verticesSize] = {
-		 0.0f,  p,	// top
-		 p,    -p,	// right
-		-p,    -p,	// left
+		 0.0f,  p, color.r, color.g, color.b, color.a,	// top
+		 p,    -p, color.r, color.g, color.b, color.a,	// right
+		-p,    -p, color.r, color.g, color.b, color.a	// left
 	};
 
 	const unsigned int indicesSize = 3;
@@ -19,7 +19,8 @@ void Renderer::triangle(float size)
 	};
 
 	VertexBufferLayout layout;
-	layout.push<float>(2);
+	layout.push<float>(2);	// position
+	layout.push<float>(4);	// color
 
 	VertexArrayObject vertexArray;
 	VertexBufferObject vertexBuffer(vertices, verticesSize * sizeof(float));
@@ -28,17 +29,17 @@ void Renderer::triangle(float size)
 	draw(vertexArray, elementBuffer);
 }
 
-void Renderer::rectangle(float width, float length)
+void Renderer::rectangle(float width, float length, glm::vec4 color)
 {
 	float x = length / 2.0f;
 	float y = width / 2.0f;
 
-	const unsigned int verticesSize = 8;
+	const unsigned int verticesSize = 24;
 	float vertices[verticesSize] = {
-		-x,  y,	// left top
-		 x,  y,	// right top
-		-x, -y,	// left bottom
-		 x, -y	// right bottom
+		-x,  y, color.r, color.g, color.b, color.a,	// left top
+		 x,  y, color.r, color.g, color.b, color.a,	// right top
+		-x, -y, color.r, color.g, color.b, color.a,	// left bottom
+		 x, -y, color.r, color.g, color.b, color.a	// right bottom
 	};
 
 	const unsigned int indicesSize = 6;
@@ -48,7 +49,8 @@ void Renderer::rectangle(float width, float length)
 	};
 
 	VertexBufferLayout layout;
-	layout.push<float>(2);
+	layout.push<float>(2);	// position
+	layout.push<float>(4);	// color
 
 	VertexArrayObject vertexArray;
 	VertexBufferObject vertexBuffer(vertices, verticesSize * sizeof(float));
@@ -57,23 +59,23 @@ void Renderer::rectangle(float width, float length)
 	draw(vertexArray, elementBuffer);
 }
 
-void Renderer::cube(float width, float length, float hight)
+void Renderer::cube(float width, float length, float hight, glm::vec4 color)
 {
 	float x = length / 2.0f;
 	float y = hight / 2.0f;
 	float z = width / 2.0f;
 
-	const unsigned int verticesSize = 24;
+	const unsigned int verticesSize = 56;
 	float vertices[verticesSize] = {
-		-x,  y, -z,		// front left top
-		 x,  y, -z,		// front right top
-		-x, -y, -z,		// front left bottom
-		 x, -y, -z,		// front right bottom
+		-x,  y, -z,	color.r, color.g, color.b, color.a,	// front left top
+		 x,  y, -z,	color.r, color.g, color.b, color.a,	// front right top
+		-x, -y, -z,	color.r, color.g, color.b, color.a,	// front left bottom
+		 x, -y, -z,	color.r, color.g, color.b, color.a,	// front right bottom
 
-		-x,  y,  z,		// back left top
-		 x,  y,  z,		// back right top
-		-x, -y,  z,		// back left bottom
-		 x, -y,  z		// back right bottom
+		-x,  y,  z,	color.r, color.g, color.b, color.a,	// back left top
+		 x,  y,  z,	color.r, color.g, color.b, color.a,	// back right top
+		-x, -y,  z,	color.r, color.g, color.b, color.a,	// back left bottom
+		 x, -y,  z,	color.r, color.g, color.b, color.a,	// back right bottom
 	};
 
 	const unsigned int indicesSize = 36;
@@ -98,7 +100,8 @@ void Renderer::cube(float width, float length, float hight)
 	}; 
 
 	VertexBufferLayout layout;
-	layout.push<float>(3);
+	layout.push<float>(3);	// position
+	layout.push<float>(4);	// color
 
 	VertexArrayObject vertexArray;
 	VertexBufferObject vertexBuffer(vertices, verticesSize * sizeof(float));
@@ -107,7 +110,7 @@ void Renderer::cube(float width, float length, float hight)
 	draw(vertexArray, elementBuffer);
 }
 
-void Renderer::cone(float hight, float radius, unsigned int slices)
+void Renderer::cone(float hight, float radius, unsigned int slices, glm::vec4 color)
 {
 	float radSlice = 360.0f / slices * M_PI / 180.0f;
 
@@ -119,6 +122,11 @@ void Renderer::cone(float hight, float radius, unsigned int slices)
 	vertices.push_back(y);
 	vertices.push_back(0.0f);
 
+	vertices.push_back(color.r);
+	vertices.push_back(color.g);
+	vertices.push_back(color.b);
+	vertices.push_back(color.a);
+
 	// slices
 	for (int i = 0; i < slices; ++i) {
 		float rad = radSlice * i;
@@ -129,6 +137,11 @@ void Renderer::cone(float hight, float radius, unsigned int slices)
 		vertices.push_back(x);
 		vertices.push_back(-y);
 		vertices.push_back(z);
+
+		vertices.push_back(color.r);
+		vertices.push_back(color.g);
+		vertices.push_back(color.b);
+		vertices.push_back(color.a);
 	}
 
 	std::vector<unsigned int> indices;
@@ -143,7 +156,8 @@ void Renderer::cone(float hight, float radius, unsigned int slices)
 	}
 
 	VertexBufferLayout layout;
-	layout.push<float>(3);
+	layout.push<float>(3);  // position
+	layout.push<float>(4);	// color
 
 	VertexArrayObject vertexArray;
 	VertexBufferObject vertexBuffer(&vertices[0], std::size(vertices) * sizeof(float));
@@ -179,4 +193,15 @@ void Renderer::switchPolygonMode()
 	int mode;
 	glGetIntegerv(GL_POLYGON_MODE, &mode);
 	polygonMode(mode == GL_FILL ? GL_LINE : GL_FILL);
+}
+
+void Renderer::enable(unsigned int cap)
+{
+	glEnable(GL_BLEND);
+
+}
+
+void Renderer::blendFunction(unsigned int sfactor, unsigned int dfactor)
+{
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

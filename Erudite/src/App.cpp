@@ -28,21 +28,17 @@ void App::run()
 
 	Shader shader("res/VertexShader.vert", "res/FragmentShader.frag");
 	shader.bind();
-	shader.setU4f("u_color", 0.2f, 0.2f, 0.4f, 1.0f);
 
 	float ratio = (float)m_width / (float)m_height;
-
-	/*
-	float halfW = ((float)m_width / 16.0f) / 2.0f, halfH = ((float)m_height / 9) / 2.0f;
-	glm::mat4 proj = glm::ortho(-halfW, halfW, -halfH, halfH, 0.1f, 1000.0f);
-	*/
 
 	glm::mat4 proj = glm::perspective(90.0f, ratio, 0.1f, 100.0f);
 	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
 	glm::mat4 model = glm::mat4(1.0f);	
 
 	Renderer::polygonMode(GL_FILL);
-	
+	Renderer::enable(GL_BLEND);
+	Renderer::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	float deltaTime = 0.0f;
 	while (!glfwWindowShouldClose(m_window))
 	{
@@ -58,10 +54,10 @@ void App::run()
 
 		switch (m_geometry) 
 		{
-			case TRIANGLE: Renderer::triangle(1.5f); break;
-			case RECTANGLE: Renderer::rectangle(1.0f, 1.5f); break;
-			case QUBE: Renderer::cube(1.2f, 0.7f, 1.4f); break;
-			case CONE: Renderer::cone(1.5f, 0.75f, 16.0f); break;
+			case TRIANGLE: Renderer::triangle(1.5f, glm::vec4(1.0, 0.5, 1.0, 1.0)); break;
+			case RECTANGLE: Renderer::rectangle(1.0f, 1.5f, glm::vec4(1.0, 0.5, 0.4, 1.0)); break;
+			case QUBE: Renderer::cube(1.2f, 0.7f, 1.4f, glm::vec4(0.4, 1.0, 0.5, 1.0)); break;
+			case CONE: Renderer::cone(1.5f, 0.75f, 32.0f, glm::vec4(0.4, 0.5, 1.0, 1.0)); break;
 		}
 
 		checkGLError();
