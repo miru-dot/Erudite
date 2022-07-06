@@ -6,19 +6,11 @@ void Renderer::triangle(float size, glm::vec4 color)
 {
 	float p = size / 2.0f;
 
-	/*
 	const unsigned int verticesSize = 18;
 	float vertices[verticesSize] = {
 		 0.0f,  p, color.r, color.g, color.b, color.a,	// top
 		 p,    -p, color.r, color.g, color.b, color.a,	// right
 		-p,    -p, color.r, color.g, color.b, color.a	// left
-	};*/
-
-	const unsigned int verticesSize = 18;
-	float vertices[verticesSize] = {
-		 0.0f,  p, 1.0f, 0.0f, 0.0f, 1.0f,	// top
-		 p,    -p, 0.0f, 1.0f, 0.0f, 1.0f,	// right
-		-p,    -p, 0.0f, 0.0f, 1.0f, 1.0f	// left
 	};
 
 	const unsigned int indicesSize = 3;

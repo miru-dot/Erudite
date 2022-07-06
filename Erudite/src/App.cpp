@@ -58,16 +58,16 @@ void App::run()
 	
 		def.bind(texSlot);
 
-		model = glm::rotate(model, glm::radians(deltaTime * 35.0f), *m_rotAxis);
+		model = glm::rotate(model, glm::radians(deltaTime * 35.0f), *m_rotAxis);		
 		glm::mat4 mvp = proj * view * model;
 		shader.setUMat4("u_mvp", mvp);
 
 		switch (m_geometry) 
 		{
-			case TRIANGLE: Renderer::triangle(1.5f); break;
+			case TRIANGLE: Renderer::triangle(2.5f); break;
 			case RECTANGLE: {
 				snow.bind(texSlot);
-				Renderer::rectangle(1.0f, 1.5f);
+				Renderer::rectangle(3.0f, 4.0f);
 				break;
 			}
 			case QUBE: Renderer::cube(1.2f, 0.7f, 1.4f, glm::vec4(0.4, 1.0, 0.5, 1.0)); break;
@@ -148,7 +148,7 @@ bool App::createContext()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	m_window = glfwCreateWindow(m_width, m_height, "I BIMS DE SILIAN", NULL, NULL);
+	m_window = glfwCreateWindow(m_width, m_height, "SILIAN OPENGL", NULL, NULL);
 	if (m_window == nullptr)
 		return false;
 
