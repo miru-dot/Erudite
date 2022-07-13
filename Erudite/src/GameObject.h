@@ -7,7 +7,7 @@ class GameObject
 {
 public:
    GameObject(std::string name = std::string("object"),
-      MeshRenderer mesh = MeshRenderer()/*,
+      MeshRenderer* mesh = new MeshRenderer()/*,
       Texture texture = Texture("res/textures/default.png")*/);
    ~GameObject();
 
@@ -17,5 +17,5 @@ public:
 private:
    std::string m_name;
   // Texture m_texture;
-   MeshRenderer m_mesh;
+   MeshRenderer* m_mesh;
 };

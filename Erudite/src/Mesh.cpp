@@ -40,22 +40,26 @@ void MeshRenderer::render()
 	Renderer::draw(vertexArray, elementBuffer);
 }
 
-void MeshRenderer::positions(std::vector<glm::vec3> positions)
+MeshRenderer* MeshRenderer::positions(std::vector<glm::vec3> positions)
 {
 	m_positions = positions;
+	return this;
 }
 
-void MeshRenderer::colors(std::vector<glm::vec4> colors)
+MeshRenderer* MeshRenderer::colors(std::vector<glm::vec4> colors)
 {
 	m_colors = colors;
+	return this;
 }
 
-void MeshRenderer::uv(std::vector<glm::vec2> uv)
+MeshRenderer* MeshRenderer::uv(std::vector<glm::vec2> uv)
 {
 	m_uv = uv;
+	return this;
 }
 
-void MeshRenderer::indices(std::vector<unsigned int> indices)
+MeshRenderer* MeshRenderer::indices(std::vector<unsigned int> indices)
 {
 	m_indices = indices;
+	return this;
 }

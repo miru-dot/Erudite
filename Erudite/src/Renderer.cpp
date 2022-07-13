@@ -1,11 +1,9 @@
 #include "Renderer.h"
 
 #include <corecrt_math_defines.h>
-#include "GameObject.h"
-
 #include "App.h"
 
-void Renderer::triangle(float size, glm::vec4 color)
+GameObject* Renderer::triangle(float size, glm::vec4 color)
 {
 	float p = size / 2.0f;
 
@@ -22,100 +20,101 @@ void Renderer::triangle(float size, glm::vec4 color)
 	};
 
 	std::vector<glm::vec2> uv = {
+		glm::vec2(0.5f, 1.0f),
 		glm::vec2(0.0f, 0.0f),
-		glm::vec2(0.0f, 0.0f),
-		glm::vec2(0.0f, 0.0f),
+		glm::vec2(0.0f, 1.0f)
 	};
 
 	std::vector<unsigned int> indices = {
-		0, 1, 2,
+		0, 1, 2
 	};
 
-	MeshRenderer mesh;
-	mesh.positions(positions);
-	mesh.colors(colors);
-	mesh.uv(uv);
-	mesh.indices(indices);
+	MeshRenderer* mesh = new MeshRenderer();
+	mesh->positions(positions)->colors(colors)->uv(uv)->indices(indices);
 
-	GameObject triangle("triangle", mesh);
-	triangle.render();
-	/*
-	const unsigned int verticesSize = 27;
-	float vertices[verticesSize] = {
-		 0.0f,  p, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 0.0f,	// top
-		 p,    -p, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 0.0f,	// right
-		-p,    -p, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 0.0f	// left
-	};
-
-	const unsigned int indicesSize = 3;
-	unsigned int indices[indicesSize] = {
-		0, 1, 2,
-	};
-	
-	VertexBufferLayout layout;
-	layout.push<float>(3);	// position
-	layout.push<float>(4);	// color
-	layout.push<float>(2);	// texture
-
-	VertexArrayObject vertexArray;
-	VertexBufferObject vertexBuffer(vertices, verticesSize * sizeof(float));
-	ElementBufferObject elementBuffer(indices, indicesSize);
-	vertexArray.addBuffer(vertexBuffer, layout);
-	draw(vertexArray, elementBuffer);	*/
+	return new GameObject("triangle", mesh);
 }
 
-void Renderer::rectangle(float width, float length, glm::vec4 color)
+GameObject* Renderer::rectangle(float width, float length, glm::vec4 color)
 {
 	float x = length / 2.0f;
 	float y = width / 2.0f;
 
-	const unsigned int verticesSize = 32;
-	float vertices[verticesSize] = {
-		-x,  y, color.r, color.g, color.b, color.a, 0.0f, 0.0f,	// left top
-		 x,  y, color.r, color.g, color.b, color.a, 1.0f, 0.0f,	// right top
-		-x, -y, color.r, color.g, color.b, color.a, 1.0f, 1.0f,	// left bottom
-		 x, -y, color.r, color.g, color.b, color.a, 0.0f, 1.0f	// right bottom
+	std::vector<glm::vec3> positions = {
+		glm::vec3(-x,  y, 0.0f),	// left top
+		glm::vec3( x,  y, 0.0f),	// right top
+		glm::vec3(-x, -y, 0.0f),	// left bottom
+		glm::vec3( x, -y, 0.0f)		// right bottom
 	};
 
-	const unsigned int indicesSize = 6;
-	unsigned int indices[indicesSize] = {
-		0, 1, 2,	// triangle 1
-		1, 3, 2  // triangle 2
+	std::vector<glm::vec4> colors = {
+		glm::vec4(color.r, color.g, color.b, color.a),
+		glm::vec4(color.r, color.g, color.b, color.a),
+		glm::vec4(color.r, color.g, color.b, color.a),
+		glm::vec4(color.r, color.g, color.b, color.a)
 	};
 
-	VertexBufferLayout layout;
-	layout.push<float>(2);	// position
-	layout.push<float>(4);	// color
-	layout.push<float>(2);	// texture coordinates
+	std::vector<glm::vec2> uv = {
+		glm::vec2(1.0f, 1.0f),
+		glm::vec2(0.0f, 1.0f),
+		glm::vec2(1.0f, 0.0f),
+		glm::vec2(0.0f, 0.0f)
+	};
 
-	VertexArrayObject vertexArray;
-	VertexBufferObject vertexBuffer(vertices, verticesSize * sizeof(float));
-	ElementBufferObject elementBuffer(indices, indicesSize);
-	vertexArray.addBuffer(vertexBuffer, layout);	
-	draw(vertexArray, elementBuffer);
+	std::vector<unsigned int> indices = {
+		0, 1, 2,
+		1, 3, 2
+	};	
+
+	MeshRenderer* mesh = new MeshRenderer();
+	mesh->positions(positions)->colors(colors)->uv(uv)->indices(indices);
+
+	return new GameObject("rectangle", mesh);
 }
 
-void Renderer::cube(float width, float length, float hight, glm::vec4 color)
+GameObject* Renderer::cube(float width, float length, float hight, glm::vec4 color)
 {
 	float x = length / 2.0f;
 	float y = hight / 2.0f;
 	float z = width / 2.0f;
 
-	const unsigned int verticesSize = 56;
-	float vertices[verticesSize] = {
-		-x,  y, -z,	color.r, color.g, color.b, color.a,	// front left top
-		 x,  y, -z,	color.r, color.g, color.b, color.a,	// front right top
-		-x, -y, -z,	color.r, color.g, color.b, color.a,	// front left bottom
-		 x, -y, -z,	color.r, color.g, color.b, color.a,	// front right bottom
+	std::vector<glm::vec3> positions = {
+		glm::vec3(-x,  y, -z),	// front left top
+		glm::vec3( x,  y, -z),	// front right top
+		glm::vec3(-x, -y, -z),	// front left bottom
+		glm::vec3( x, -y, -z),	// front right bottom
 
-		-x,  y,  z,	color.r, color.g, color.b, color.a,	// back left top
-		 x,  y,  z,	color.r, color.g, color.b, color.a,	// back right top
-		-x, -y,  z,	color.r, color.g, color.b, color.a,	// back left bottom
-		 x, -y,  z,	color.r, color.g, color.b, color.a,	// back right bottom
+		glm::vec3(-x,  y,  z),	// back left top
+		glm::vec3( x,  y,  z),	// back right top
+		glm::vec3(-x, -y,  z),	// back left bottom
+		glm::vec3( x, -y,  z)	// back right bottom
 	};
 
-	const unsigned int indicesSize = 36;
-	unsigned int indices[indicesSize] = {
+	std::vector<glm::vec4> colors = {
+		glm::vec4(color.r, color.g, color.b, color.a),
+		glm::vec4(color.r, color.g, color.b, color.a),
+		glm::vec4(color.r, color.g, color.b, color.a),
+		glm::vec4(color.r, color.g, color.b, color.a),
+
+		glm::vec4(color.r, color.g, color.b, color.a),
+		glm::vec4(color.r, color.g, color.b, color.a),
+		glm::vec4(color.r, color.g, color.b, color.a),
+		glm::vec4(color.r, color.g, color.b, color.a)
+	};
+
+	std::vector<glm::vec2> uv = {
+		glm::vec2(1.0f, 1.0f),
+		glm::vec2(0.0f, 1.0f),
+		glm::vec2(1.0f, 0.0f),
+		glm::vec2(0.0f, 0.0f),
+
+		glm::vec2(1.0f, 1.0f),
+		glm::vec2(0.0f, 1.0f),
+		glm::vec2(1.0f, 0.0f),
+		glm::vec2(0.0f, 0.0f)
+	};
+
+	std::vector<unsigned int> indices = {
 		0, 1, 2,	 // front face triangle 1
 		1, 3, 2,  // front face triangle 2
 
@@ -124,7 +123,7 @@ void Renderer::cube(float width, float length, float hight, glm::vec4 color)
 
 		4, 5, 0,  // top face triangle 1
 		5, 1, 0,  // top face triangle 2
-				
+
 		2, 3, 6,  // bottom face triangle 1
 		3, 7, 6,  // bottom face triangle 2
 
@@ -133,20 +132,15 @@ void Renderer::cube(float width, float length, float hight, glm::vec4 color)
 
 		1, 5, 3,  // right face triangle 1
 		5, 7, 3   // right face triangle 2 
-	}; 
+	};
 
-	VertexBufferLayout layout;
-	layout.push<float>(3);	// position
-	layout.push<float>(4);	// color
+	MeshRenderer* mesh = new MeshRenderer();
+	mesh->positions(positions)->colors(colors)->uv(uv)->indices(indices);
 
-	VertexArrayObject vertexArray;
-	VertexBufferObject vertexBuffer(vertices, verticesSize * sizeof(float));
-	ElementBufferObject elementBuffer(indices, indicesSize);
-	vertexArray.addBuffer(vertexBuffer, layout);
-	draw(vertexArray, elementBuffer);
+	return new GameObject("cube", mesh);
 }
 
-void Renderer::cone(float hight, float radius, unsigned int slices, glm::vec4 color)
+GameObject* Renderer::cone(float hight, float radius, unsigned int slices, glm::vec4 color)
 {
 	float radSlice = 360.0f / slices * M_PI / 180.0f;
 
@@ -200,6 +194,8 @@ void Renderer::cone(float hight, float radius, unsigned int slices, glm::vec4 co
 	ElementBufferObject elementBuffer(&indices[0], std::size(indices));
 	vertexArray.addBuffer(vertexBuffer, layout);
 	draw(vertexArray, elementBuffer);
+
+	return nullptr;
 }
 
 void Renderer::draw(const VertexArrayObject& vertexArray, const ElementBufferObject& elementBuffer)

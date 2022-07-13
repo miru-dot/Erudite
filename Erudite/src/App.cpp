@@ -9,6 +9,8 @@
 
 #include "Renderer.h"
 #include <string>
+#include "Mesh.h"
+#include "GameObject.h"
 
 App::App() : m_rotAxis(&m_axisY), m_geometry(RECTANGLE) {}
 
@@ -30,7 +32,9 @@ void App::run()
 	Texture def("res/textures/default.png");
 	Texture snow("res/textures/snow-forest.jpg");
 
-	def.bind(texSlot);
+	GameObject* triangle = Renderer::triangle(2.5f);
+	GameObject* rectangle = Renderer::rectangle(3.0f, 4.0f);
+	GameObject* cube = Renderer::cube(1.2f, 0.7f, 1.4f, glm::vec4(0.4, 1.0, 0.5, 1.0));
 
 	float ratio = (float)m_width / (float)m_height;
 	glm::mat4 proj = glm::perspective(90.0f, ratio, 0.1f, 100.0f);
@@ -50,23 +54,18 @@ void App::run()
 
 		Renderer::clear();
 	
-		def.bind(texSlot);
-
 		model = glm::rotate(model, glm::radians(deltaTime * 35.0f), *m_rotAxis);		
 		glm::mat4 mvp = proj * view * model;
 		shader.setUMat4("u_mvp", mvp);
 
-		switch (m_geometry) 
-		{
-			case TRIANGLE: Renderer::triangle(2.5f); break;
-			case RECTANGLE: {
-				snow.bind(texSlot);
-				Renderer::rectangle(3.0f, 4.0f);
-				break;
-			}
-			case QUBE: Renderer::cube(1.2f, 0.7f, 1.4f, glm::vec4(0.4, 1.0, 0.5, 1.0)); break;
-			case CONE: Renderer::cone(1.5f, 0.75f, 32.0f, glm::vec4(0.4, 0.5, 1.0, 1.0)); break;
-		}
+		def.bind(texSlot);
+
+		triangle->render();
+
+		snow.bind(texSlot);
+
+		rectangle->render();
+		cube->render();
 
 		checkGLError();
 
@@ -75,6 +74,8 @@ void App::run()
 
 		deltaTime = glfwGetTime() - start;
 	}
+
+	delete triangle;
 
 	terminate();
 }

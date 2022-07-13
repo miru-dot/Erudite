@@ -15,10 +15,10 @@ public:
 
    void render();
 
-   void positions(std::vector<glm::vec3> positions);
-   void colors(std::vector<glm::vec4> colors);
-   void uv(std::vector<glm::vec2> uv);
-   void indices(std::vector<unsigned int> indices);
+   MeshRenderer* positions(std::vector<glm::vec3> positions);
+   MeshRenderer* colors(std::vector<glm::vec4> colors);
+   MeshRenderer* uv(std::vector<glm::vec2> uv);
+   MeshRenderer* indices(std::vector<unsigned int> indices);
 
 private:
    VertexBufferLayout m_layout = VertexBufferLayout();
