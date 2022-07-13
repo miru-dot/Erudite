@@ -24,6 +24,11 @@ void App::run()
 	if (!init())
 		return;
 
+	Renderer::polygonMode(GL_FILL);
+	Renderer::enable(GL_BLEND);
+	Renderer::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	Renderer::enable(GL_DEPTH_TEST);
+
 	int texSlot = 0;
 	Shader shader("res/VertexShader.vert", "res/FragmentShader.frag");
 	shader.bind();
@@ -33,17 +38,13 @@ void App::run()
 	Texture snow("res/textures/snow-forest.jpg");
 
 	GameObject* triangle = Renderer::triangle(2.5f);
-	GameObject* rectangle = Renderer::rectangle(3.0f, 4.0f);
-	GameObject* cube = Renderer::cube(1.2f, 0.7f, 1.4f, glm::vec4(0.4, 1.0, 0.5, 1.0));
+	GameObject* rectangle = Renderer::rectangle(2.0f, 2.5f);
+	GameObject* cube = Renderer::cube(1.0f, 1.25f, 1.0f, glm::vec4(1.0, 0.0, 0.0, 1.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
 
 	float ratio = (float)m_width / (float)m_height;
 	glm::mat4 proj = glm::perspective(90.0f, ratio, 0.1f, 100.0f);
 	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
 	glm::mat4 model = glm::mat4(1.0f);	
-
-	Renderer::polygonMode(GL_FILL);
-	Renderer::enable(GL_BLEND);
-	Renderer::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	float deltaTime = 0.0f;
 	while (!glfwWindowShouldClose(m_window))
@@ -52,19 +53,13 @@ void App::run()
 
 		handleInput();
 
-		Renderer::clear();
+		Renderer::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 		model = glm::rotate(model, glm::radians(deltaTime * 35.0f), *m_rotAxis);		
 		glm::mat4 mvp = proj * view * model;
 		shader.setUMat4("u_mvp", mvp);
 
-		def.bind(texSlot);
-
-		triangle->render();
-
 		snow.bind(texSlot);
-
-		rectangle->render();
 		cube->render();
 
 		checkGLError();
@@ -76,6 +71,8 @@ void App::run()
 	}
 
 	delete triangle;
+	delete rectangle;
+	delete cube;
 
 	terminate();
 }

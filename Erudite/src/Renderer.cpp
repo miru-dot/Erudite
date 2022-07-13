@@ -72,7 +72,7 @@ GameObject* Renderer::rectangle(float width, float length, glm::vec4 color)
 	return new GameObject("rectangle", mesh);
 }
 
-GameObject* Renderer::cube(float width, float length, float hight, glm::vec4 color)
+GameObject* Renderer::cube(float width, float length, float hight, glm::vec4 top, glm::vec4 bottom)
 {
 	float x = length / 2.0f;
 	float y = hight / 2.0f;
@@ -91,15 +91,15 @@ GameObject* Renderer::cube(float width, float length, float hight, glm::vec4 col
 	};
 
 	std::vector<glm::vec4> colors = {
-		glm::vec4(color.r, color.g, color.b, color.a),
-		glm::vec4(color.r, color.g, color.b, color.a),
-		glm::vec4(color.r, color.g, color.b, color.a),
-		glm::vec4(color.r, color.g, color.b, color.a),
+		glm::vec4(top.r, top.g, top.b, top.a),
+		glm::vec4(top.r, top.g, top.b, top.a),
+		glm::vec4(bottom.r, bottom.g, bottom.b, bottom.a),
+		glm::vec4(bottom.r, bottom.g, bottom.b, bottom.a),
 
-		glm::vec4(color.r, color.g, color.b, color.a),
-		glm::vec4(color.r, color.g, color.b, color.a),
-		glm::vec4(color.r, color.g, color.b, color.a),
-		glm::vec4(color.r, color.g, color.b, color.a)
+		glm::vec4(top.r, top.g, top.b, top.a),
+		glm::vec4(top.r, top.g, top.b, top.a),
+		glm::vec4(bottom.r, bottom.g, bottom.b, bottom.a),
+		glm::vec4(bottom.r, bottom.g, bottom.b, bottom.a)
 	};
 
 	std::vector<glm::vec2> uv = {
@@ -206,9 +206,9 @@ void Renderer::draw(const VertexArrayObject& vertexArray, const ElementBufferObj
 	glDrawElements(GL_TRIANGLES, elementBuffer.getCount(), GL_UNSIGNED_INT, 0);
 }
 
-void Renderer::clear()
+void Renderer::clear(unsigned int clear)
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(clear);
 }
 
 /// <summary>
@@ -229,11 +229,10 @@ void Renderer::switchPolygonMode()
 
 void Renderer::enable(unsigned int cap)
 {
-	glEnable(GL_BLEND);
-
+	glEnable(cap);
 }
 
 void Renderer::blendFunction(unsigned int sfactor, unsigned int dfactor)
 {
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(sfactor, dfactor);
 }
