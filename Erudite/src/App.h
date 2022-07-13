@@ -13,6 +13,7 @@ public:
    App();                                                            // consturctor
    ~App();                                                           // destructor
    void run();                                                       // programm loop
+   static void checkGLError();                                       // check for open gl errors it will output all errors
 
 private:
    enum Geometry                                                     // List of geometry objects
@@ -32,7 +33,6 @@ private:
       int width, int height);
    static void keyPressedCallback(GLFWwindow* window, int key,
       int scancode, int action, int mods);                           // process keyboard input callback
-   static void checkGLError();                                       // check for open gl errors it will output all errors
 
    GLFWwindow* m_window = nullptr;                                   // the render context
    unsigned int m_geometry = TRIANGLE;

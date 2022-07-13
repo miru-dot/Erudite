@@ -1,32 +1,67 @@
 #include "Renderer.h"
 
 #include <corecrt_math_defines.h>
+#include "GameObject.h"
+
+#include "App.h"
 
 void Renderer::triangle(float size, glm::vec4 color)
 {
 	float p = size / 2.0f;
 
-	const unsigned int verticesSize = 18;
+	std::vector<glm::vec3> positions = {
+		glm::vec3(0.0f,  p, 0.0f),
+		glm::vec3(	 p, -p, 0.0f),
+		glm::vec3(	-p, -p, 0.0f)
+	};
+
+	std::vector<glm::vec4> colors = {
+		glm::vec4(color.r, color.g, color.b, color.a),
+		glm::vec4(color.r, color.g, color.b, color.a),
+		glm::vec4(color.r, color.g, color.b, color.a)
+	};
+
+	std::vector<glm::vec2> uv = {
+		glm::vec2(0.0f, 0.0f),
+		glm::vec2(0.0f, 0.0f),
+		glm::vec2(0.0f, 0.0f),
+	};
+
+	std::vector<unsigned int> indices = {
+		0, 1, 2,
+	};
+
+	MeshRenderer mesh;
+	mesh.positions(positions);
+	mesh.colors(colors);
+	mesh.uv(uv);
+	mesh.indices(indices);
+
+	GameObject triangle("triangle", mesh);
+	triangle.render();
+	/*
+	const unsigned int verticesSize = 27;
 	float vertices[verticesSize] = {
-		 0.0f,  p, color.r, color.g, color.b, color.a,	// top
-		 p,    -p, color.r, color.g, color.b, color.a,	// right
-		-p,    -p, color.r, color.g, color.b, color.a	// left
+		 0.0f,  p, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 0.0f,	// top
+		 p,    -p, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 0.0f,	// right
+		-p,    -p, 0.0f, color.r, color.g, color.b, color.a, 0.0f, 0.0f	// left
 	};
 
 	const unsigned int indicesSize = 3;
 	unsigned int indices[indicesSize] = {
 		0, 1, 2,
 	};
-
+	
 	VertexBufferLayout layout;
-	layout.push<float>(2);	// position
+	layout.push<float>(3);	// position
 	layout.push<float>(4);	// color
+	layout.push<float>(2);	// texture
 
 	VertexArrayObject vertexArray;
 	VertexBufferObject vertexBuffer(vertices, verticesSize * sizeof(float));
 	ElementBufferObject elementBuffer(indices, indicesSize);
 	vertexArray.addBuffer(vertexBuffer, layout);
-	draw(vertexArray, elementBuffer);
+	draw(vertexArray, elementBuffer);	*/
 }
 
 void Renderer::rectangle(float width, float length, glm::vec4 color)

@@ -10,15 +10,9 @@
 #include "Renderer.h"
 #include <string>
 
-App::App() 
-{
-	m_rotAxis = &m_axisY;
-	m_geometry = RECTANGLE;
-}
+App::App() : m_rotAxis(&m_axisY), m_geometry(RECTANGLE) {}
 
-App::~App() 
-{
-}
+App::~App() {}
 
 /// <summary>
 /// App main loop

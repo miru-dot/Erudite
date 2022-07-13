@@ -27,6 +27,14 @@ void VertexArrayObject::addBuffer(const VertexBufferObject& vertexBuffer, Vertex
    }
 }
 
+void VertexArrayObject::draw(const VertexArrayObject& vertexArray, const ElementBufferObject& elementBuffer)
+{
+   vertexArray.bind();
+   elementBuffer.bind();
+
+   glDrawElements(GL_TRIANGLES, elementBuffer.getCount(), GL_UNSIGNED_INT, 0);
+}
+
 void VertexArrayObject::bind() const
 {
    glBindVertexArray(m_id);
