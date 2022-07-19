@@ -1,4 +1,4 @@
-#include "Mesh.h"
+#include "MeshRenderer.h"
 #include "Renderer.h"
 
 MeshRenderer::MeshRenderer()
@@ -11,6 +11,9 @@ MeshRenderer::~MeshRenderer()
 
 void MeshRenderer::render()
 {	
+	// For debuging =)
+	//assert(std::size(m_positions) == std::size(m_colors) && std::size(m_positions) == std::size(m_uv));
+	
 	std::vector<float> vertices;
 	unsigned int count = std::size(m_positions);
 	for (int i = 0; i < count; i++) 

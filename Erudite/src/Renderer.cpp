@@ -3,7 +3,7 @@
 #include <corecrt_math_defines.h>
 #include "App.h"
 
-GameObject* Renderer::triangle(float size, glm::vec4 color)
+GameObject* Renderer::triangle(float size, glm::vec4 color, Texture* texture)
 {
 	float p = size / 2.0f;
 
@@ -32,10 +32,10 @@ GameObject* Renderer::triangle(float size, glm::vec4 color)
 	MeshRenderer* mesh = new MeshRenderer();
 	mesh->positions(positions)->colors(colors)->uv(uv)->indices(indices);
 
-	return new GameObject("triangle", mesh);
+	return new GameObject("triangle", mesh, texture);
 }
 
-GameObject* Renderer::rectangle(float width, float length, glm::vec4 color)
+GameObject* Renderer::rectangle(float width, float length, glm::vec4 color, Texture* texture)
 {
 	float x = length / 2.0f;
 	float y = width / 2.0f;
@@ -69,10 +69,10 @@ GameObject* Renderer::rectangle(float width, float length, glm::vec4 color)
 	MeshRenderer* mesh = new MeshRenderer();
 	mesh->positions(positions)->colors(colors)->uv(uv)->indices(indices);
 
-	return new GameObject("rectangle", mesh);
+	return new GameObject("rectangle", mesh, texture);
 }
 
-GameObject* Renderer::cube(float width, float length, float hight, glm::vec4 top, glm::vec4 bottom)
+GameObject* Renderer::cube(float width, float length, float hight, glm::vec4 top, glm::vec4 bottom, Texture* texture)
 {
 	float x = length / 2.0f;
 	float y = hight / 2.0f;
@@ -87,7 +87,7 @@ GameObject* Renderer::cube(float width, float length, float hight, glm::vec4 top
 		glm::vec3(-x,  y,  z),	// back left top
 		glm::vec3( x,  y,  z),	// back right top
 		glm::vec3(-x, -y,  z),	// back left bottom
-		glm::vec3( x, -y,  z)	// back right bottom
+		glm::vec3( x, -y,  z),	// back right bottom
 	};
 
 	std::vector<glm::vec4> colors = {
@@ -99,7 +99,7 @@ GameObject* Renderer::cube(float width, float length, float hight, glm::vec4 top
 		glm::vec4(top.r, top.g, top.b, top.a),
 		glm::vec4(top.r, top.g, top.b, top.a),
 		glm::vec4(bottom.r, bottom.g, bottom.b, bottom.a),
-		glm::vec4(bottom.r, bottom.g, bottom.b, bottom.a)
+		glm::vec4(bottom.r, bottom.g, bottom.b, bottom.a),
 	};
 
 	std::vector<glm::vec2> uv = {
@@ -108,10 +108,10 @@ GameObject* Renderer::cube(float width, float length, float hight, glm::vec4 top
 		glm::vec2(1.0f, 0.0f),
 		glm::vec2(0.0f, 0.0f),
 
-		glm::vec2(1.0f, 1.0f),
 		glm::vec2(0.0f, 1.0f),
+		glm::vec2(1.0f, 1.0f),
+		glm::vec2(0.0f, 0.0f),
 		glm::vec2(1.0f, 0.0f),
-		glm::vec2(0.0f, 0.0f)
 	};
 
 	std::vector<unsigned int> indices = {
@@ -137,7 +137,7 @@ GameObject* Renderer::cube(float width, float length, float hight, glm::vec4 top
 	MeshRenderer* mesh = new MeshRenderer();
 	mesh->positions(positions)->colors(colors)->uv(uv)->indices(indices);
 
-	return new GameObject("cube", mesh);
+	return new GameObject("cube", mesh, texture);
 }
 
 GameObject* Renderer::cone(float hight, float radius, unsigned int slices, glm::vec4 color)

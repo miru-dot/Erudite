@@ -1,15 +1,16 @@
 #include "App.h"
 
+#include <string>
+
 #include "Shader.h"
 #include "Texture.h"
+#include "MeshRenderer.h"
 
 #include "VertexBufferObject.h"
 #include "ElementBufferObject.h"
 #include "VertexArrayObject.h"
 
 #include "Renderer.h"
-#include <string>
-#include "Mesh.h"
 #include "GameObject.h"
 
 App::App() : m_rotAxis(&m_axisY), m_geometry(RECTANGLE) {}
@@ -24,43 +25,38 @@ void App::run()
 	if (!init())
 		return;
 
-	Renderer::polygonMode(GL_FILL);
-	Renderer::enable(GL_BLEND);
-	Renderer::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	Renderer::enable(GL_DEPTH_TEST);
-
-	int texSlot = 0;
-	Shader shader("res/VertexShader.vert", "res/FragmentShader.frag");
-	shader.bind();
-	shader.setU1i("u_texture", texSlot);
-
-	Texture def("res/textures/default.png");
-	Texture snow("res/textures/snow-forest.jpg");
-
-	GameObject* triangle = Renderer::triangle(2.5f);
-	GameObject* rectangle = Renderer::rectangle(2.0f, 2.5f);
-	GameObject* cube = Renderer::cube(1.0f, 1.25f, 1.0f, glm::vec4(1.0, 0.0, 0.0, 1.0), glm::vec4(1.0, 1.0, 1.0, 1.0));
+	std::vector<GameObject*> gameObjects = {
+		Renderer::rectangle(3.0f, 4.5f, glm::vec4(1.0, 1.0, 1.0, 1.0), new Texture("res/textures/snow-forest.jpg")),
+		//Renderer::cube(1.5f, 1.5f, 1.0f, glm::vec4(1.0, 1.0, 1.0, 1.0), glm::vec4(0.0, 0.0, 0.0, 1.0))
+	};
 
 	float ratio = (float)m_width / (float)m_height;
 	glm::mat4 proj = glm::perspective(90.0f, ratio, 0.1f, 100.0f);
 	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
 	glm::mat4 model = glm::mat4(1.0f);	
 
+	Renderer::polygonMode(GL_FILL);
+	Renderer::enable(GL_BLEND);
+	Renderer::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	Renderer::enable(GL_DEPTH_TEST);
+
 	float deltaTime = 0.0f;
 	while (!glfwWindowShouldClose(m_window))
 	{
-		double start = glfwGetTime();
+		float start = (float)glfwGetTime();
 
 		handleInput();
 
 		Renderer::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-		model = glm::rotate(model, glm::radians(deltaTime * 35.0f), *m_rotAxis);		
+		model = glm::rotate(model, glm::radians(deltaTime * 0.0f), *m_rotAxis);
 		glm::mat4 mvp = proj * view * model;
-		shader.setUMat4("u_mvp", mvp);
 
-		snow.bind(texSlot);
-		cube->render();
+		for (GameObject* object : gameObjects)
+		{
+			object->m_shader->setUMat4("u_mvp", mvp);
+			object->render();
+		}
 
 		checkGLError();
 
@@ -69,10 +65,9 @@ void App::run()
 
 		deltaTime = glfwGetTime() - start;
 	}
-
-	delete triangle;
-	delete rectangle;
-	delete cube;
+	
+	gameObjects.clear();
+	gameObjects.shrink_to_fit();
 
 	terminate();
 }

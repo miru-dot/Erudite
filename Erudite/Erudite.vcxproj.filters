@@ -45,7 +45,10 @@
     <ClInclude Include="src\GameObject.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mesh.h">
+    <ClInclude Include="src\MeshRenderer.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Transform.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
@@ -86,7 +89,10 @@
     <ClCompile Include="src\GameObject.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="src\Mesh.cpp">
+    <ClCompile Include="src\MeshRenderer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Transform.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
