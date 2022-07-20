@@ -16,7 +16,8 @@ public:
    ~Shader();
    void bind();                                                      // bind shader (program)
    void unbind();                                                    // unbind shader (program)
-   void setU1i(const std::string& name, int value);                  // set i int uniform                   
+   void setU1i(const std::string& name, int value);                  // set 1 int uniform                   
+   void setU1f(const std::string& name, float value);                // set 1 float uniform
    void setU4f(const std::string& name, float v0, float v1, 
       float v2, float v3);                                           // set 4 float uniform
    void setUMat4(const std::string& name, glm::mat4 matrix);         // set matrix 4 uniform

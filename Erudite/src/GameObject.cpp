@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
 GameObject::GameObject(std::string name, MeshRenderer* mesh, Texture* texture) :
-   m_name(name), m_mesh(mesh), m_texture(texture)
+   m_name(name), m_mesh(mesh), m_texture(texture), m_transform(new Transform())
 {
    m_shader = new Shader("res/VertexShader.vert", "res/FragmentShader.frag");
    m_shader->bind();
@@ -14,6 +14,10 @@ GameObject::~GameObject()
       delete m_mesh;
    if (m_texture)
       delete m_texture;
+}
+
+void GameObject::update()
+{
 }
 
 void GameObject::render()

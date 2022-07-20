@@ -16,14 +16,6 @@ public:
    static void checkGLError();                                       // check for open gl errors it will output all errors
 
 private:
-   enum Geometry                                                     // List of geometry objects
-   {
-      TRIANGLE = 0,
-      RECTANGLE = 1,
-      QUBE = 2,
-      CONE = 3
-   };
-
    void handleInput();                                               // handle input
    bool init();                                                      // initalizes the programm   
    void terminate();                                                 // terminates the programm 
@@ -35,13 +27,8 @@ private:
       int scancode, int action, int mods);                           // process keyboard input callback
 
    GLFWwindow* m_window = nullptr;                                   // the render context
-   unsigned int m_geometry = TRIANGLE;
-   const glm::vec3* m_rotAxis = new glm::vec3();
+   const glm::vec3* m_rotAxis = new glm::vec3(0.0f, 1.0f, 0.0f);
 
-   const int m_width = 1280;                                         // window width
-   const int m_height = 720;                                         // window height
-   
-   const glm::vec3 m_axisX = glm::vec3(1.0f, 0.0f, 0.0f);            // x axis
-   const glm::vec3 m_axisY = glm::vec3(0.0f, 1.0f, 0.0f);            // y axis
-   const glm::vec3 m_axisZ = glm::vec3(0.0f, 0.0f, 1.0f);            // y axis
+   const int m_width = 1920;                                         // window width
+   const int m_height = 1080;                                         // window height
 };

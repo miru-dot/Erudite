@@ -13,7 +13,7 @@
 #include "Renderer.h"
 #include "GameObject.h"
 
-App::App() : m_rotAxis(&m_axisY), m_geometry(RECTANGLE) {}
+App::App() {}
 
 App::~App() {}
 
@@ -49,12 +49,21 @@ void App::run()
 
 		Renderer::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-		model = glm::rotate(model, glm::radians(deltaTime * 0.0f), *m_rotAxis);
-		glm::mat4 mvp = proj * view * model;
+		//model = glm::rotate(model, glm::radians(deltaTime * 35.0f), *m_rotAxis);
+		//glm::mat4 mvp = proj * view * model;
 
 		for (GameObject* object : gameObjects)
 		{
-			object->m_shader->setUMat4("u_mvp", mvp);
+			Shader* shader = object->m_shader;
+
+			shader->setU1f("u_time", start);
+			shader->setU1f("u_frequence", 0.5f);
+			shader->setU1f("u_amplitude", 1.5f);
+
+			object->m_transform->m_rotation->y += deltaTime * 35.0f;
+
+			glm::mat4 mvp = proj * view * object->m_transform->trs();
+			shader->setUMat4("u_mvp", mvp);
 			object->render();
 		}
 
@@ -77,20 +86,32 @@ void App::run()
 /// </summary>
 void App::handleInput()
 {
-	if (glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_PRESS)
-		m_geometry = TRIANGLE;
-	else if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS)
-		m_geometry = RECTANGLE;
-	else if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_PRESS)
-		m_geometry = QUBE;
-	else if (glfwGetKey(m_window, GLFW_KEY_R) == GLFW_PRESS)
-		m_geometry = CONE;
+	if (glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_PRESS) 
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
+	else if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS) {
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
+	else if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_PRESS) 
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	}
+	else if (glfwGetKey(m_window, GLFW_KEY_R) == GLFW_PRESS) 
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	}
+	/*
 	else if (glfwGetKey(m_window, GLFW_KEY_Z) == GLFW_PRESS)
 		m_rotAxis = &m_axisY;
 	else if (glfwGetKey(m_window, GLFW_KEY_X) == GLFW_PRESS)
 		m_rotAxis = &m_axisX;
 	else if (glfwGetKey(m_window, GLFW_KEY_C) == GLFW_PRESS)
-		m_rotAxis = &m_axisZ;
+		m_rotAxis = &m_axisZ;*/
 }
 
 /// <summary>
