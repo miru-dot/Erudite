@@ -25,45 +25,30 @@ void App::run()
 	if (!init())
 		return;
 
-	std::vector<GameObject*> gameObjects = {
-		Renderer::rectangle(3.0f, 4.5f, glm::vec4(1.0, 1.0, 1.0, 1.0), new Texture("res/textures/snow-forest.jpg")),
-		//Renderer::cube(1.5f, 1.5f, 1.0f, glm::vec4(1.0, 1.0, 1.0, 1.0), glm::vec4(0.0, 0.0, 0.0, 1.0))
-	};
-
-	float ratio = (float)m_width / (float)m_height;
-	glm::mat4 proj = glm::perspective(90.0f, ratio, 0.1f, 100.0f);
-	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f));
-	glm::mat4 model = glm::mat4(1.0f);	
-
 	Renderer::polygonMode(GL_FILL);
 	Renderer::enable(GL_BLEND);
 	Renderer::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	Renderer::enable(GL_DEPTH_TEST);
 
+	std::vector<GameObject*> gameObjects = {
+		Renderer::rectangle(3.0f, 4.5f, glm::vec4(1.0, 1.0, 1.0, 1.0), new Texture("res/textures/snow-forest.jpg")),
+		Renderer::cube(1.5f, 1.5f, 1.0f, glm::vec4(1.0, 1.0, 1.0, 1.0), glm::vec4(0.0, 0.0, 0.0, 1.0))
+	};
+
+	m_camera->m_transform->m_position->z = -2.0f;
 	float deltaTime = 0.0f;
 	while (!glfwWindowShouldClose(m_window))
 	{
 		float start = (float)glfwGetTime();
 
-		handleInput();
+		handleInput(deltaTime);
 
 		Renderer::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-		//model = glm::rotate(model, glm::radians(deltaTime * 35.0f), *m_rotAxis);
-		//glm::mat4 mvp = proj * view * model;
 
 		for (GameObject* object : gameObjects)
 		{
-			Shader* shader = object->m_shader;
-
-			shader->setU1f("u_time", start);
-			shader->setU1f("u_frequence", 0.5f);
-			shader->setU1f("u_amplitude", 1.5f);
-
-			object->m_transform->m_rotation->y += deltaTime * 35.0f;
-
-			glm::mat4 mvp = proj * view * object->m_transform->trs();
-			shader->setUMat4("u_mvp", mvp);
+			object->m_transform->m_rotation->y += deltaTime * 5.0f;
+			object->transform();
 			object->render();
 		}
 
@@ -84,34 +69,18 @@ void App::run()
 /// <summary>
 /// Handle window input
 /// </summary>
-void App::handleInput()
+void App::handleInput(float deltaTime)
 {
-	if (glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_PRESS) 
-	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	}
-	else if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS) {
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	}
-	else if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_PRESS) 
-	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	}
-	else if (glfwGetKey(m_window, GLFW_KEY_R) == GLFW_PRESS) 
-	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	}
-	/*
-	else if (glfwGetKey(m_window, GLFW_KEY_Z) == GLFW_PRESS)
-		m_rotAxis = &m_axisY;
-	else if (glfwGetKey(m_window, GLFW_KEY_X) == GLFW_PRESS)
-		m_rotAxis = &m_axisX;
-	else if (glfwGetKey(m_window, GLFW_KEY_C) == GLFW_PRESS)
-		m_rotAxis = &m_axisZ;*/
+	float speed = 5.0f * deltaTime;
+
+	if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS) 
+		m_camera->m_transform->m_position->z += speed;
+	else if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
+		m_camera->m_transform->m_position->x += speed;
+	else if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS) 
+		m_camera->m_transform->m_position->z -= speed;
+	else if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS) 
+		m_camera->m_transform->m_position->x -= speed;
 }
 
 /// <summary>
@@ -142,6 +111,7 @@ bool App::init()
 /// </summary>
 void App::terminate()
 {
+	Camera::instance()->destroy();
 	glfwTerminate();
 }
 
@@ -175,6 +145,7 @@ bool App::createContext()
 /// <param name="height">Height of the window</param>
 void App::framebufferSizeCallback(GLFWwindow* window, int width, int height)
 {
+	Camera::instance()->m_ratio = (float)width / (float)height;
 	glViewport(0, 0, width, height);
 }
 

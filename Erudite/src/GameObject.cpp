@@ -16,13 +16,19 @@ GameObject::~GameObject()
       delete m_texture;
 }
 
-void GameObject::update()
-{
-}
-
 void GameObject::render()
 {
    m_shader->bind();
    m_texture->bind(m_textureSlot);
    m_mesh->render();
+}
+
+void GameObject::transform()
+{
+   m_shader->setUMat4("u_mvp", m_camera->projection() * m_camera->view() * model());
+}
+
+glm::mat4 GameObject::model()
+{
+   return m_transform->trs();
 }

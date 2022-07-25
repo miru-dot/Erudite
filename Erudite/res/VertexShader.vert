@@ -9,14 +9,10 @@ out vec2 io_texCoord;
 
 uniform mat4 u_mvp;
 
-uniform float u_time;
-uniform float u_frequence;
-uniform float u_amplitude;
-
 void main()
 {
     gl_Position = u_mvp * vec4(position, 1.0f);
 
     io_fragmentColor = color;
-    io_texCoord = texCoord + (u_amplitude * sin(u_frequence * u_time));
+    io_texCoord = texCoord;
 };

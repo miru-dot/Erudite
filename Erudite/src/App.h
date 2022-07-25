@@ -6,6 +6,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 #include <iostream>
+#include "Camera.h"
 
 class App 
 {
@@ -16,7 +17,7 @@ public:
    static void checkGLError();                                       // check for open gl errors it will output all errors
 
 private:
-   void handleInput();                                               // handle input
+   void handleInput(float deltaTime);                                // handle input
    bool init();                                                      // initalizes the programm   
    void terminate();                                                 // terminates the programm 
    bool createContext();                                             // creates GLFW window used as render context 
@@ -27,8 +28,7 @@ private:
       int scancode, int action, int mods);                           // process keyboard input callback
 
    GLFWwindow* m_window = nullptr;                                   // the render context
-   const glm::vec3* m_rotAxis = new glm::vec3(0.0f, 1.0f, 0.0f);
-
+   Camera* m_camera = Camera::instance();                            // camera
    const int m_width = 1920;                                         // window width
-   const int m_height = 1080;                                         // window height
+   const int m_height = 1080;                                        // window height
 };
