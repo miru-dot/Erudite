@@ -25,6 +25,7 @@ void GameObject::render()
 
 void GameObject::transform()
 {
+   m_shader->bind();
    m_shader->setUMat4("u_mvp", m_camera->projection() * m_camera->view() * model());
 }
 

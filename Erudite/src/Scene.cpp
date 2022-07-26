@@ -22,7 +22,7 @@ void Scene::render(float deltaTime)
 
 void Scene::add(GameObject* gameObject)
 {
-	m_gameObjects->push_front(gameObject);
+	m_gameObjects->push_back(gameObject);
 }
 
 void Scene::remove(GameObject* gameObject)

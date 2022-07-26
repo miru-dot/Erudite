@@ -29,8 +29,9 @@ void App::run()
 	GameObject* cube = Mesh::cube(1.5f, 1.5f, 1.0f, glm::vec4(1.0, 1.0, 1.0, 1.0), glm::vec4(1.0, 1.0, 1.0, 1.0), new Texture("res/textures/2114387497_1ccd0bd73e.jpg"));
 	cube->m_transform->m_position->x = -10;
 
-	m_scene->add(Mesh::rectangle(3.0f, 4.5f, glm::vec4(1.0, 1.0, 1.0, 1.0), new Texture("res/textures/snow-forest.jpg")));
 	m_scene->add(cube);
+	m_scene->add(Mesh::rectangle(3.0f, 4.5f, glm::vec4(1.0, 1.0, 1.0, 1.0), new Texture("res/textures/snow-forest.jpg")));
+	m_scene->add(Mesh::cone(2.5f, 1.0f, 16));
 
 	m_camera->m_transform->m_position->z = -2.0f;
 

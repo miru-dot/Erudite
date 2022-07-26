@@ -140,39 +140,33 @@ GameObject* Mesh::cube(float width, float length, float hight, glm::vec4 top, gl
 
 GameObject* Mesh::cone(float hight, float radius, unsigned int slices, glm::vec4 color)
 {
+	std::vector<glm::vec3> positions;
+	std::vector<glm::vec4> colors;
+	std::vector<glm::vec2> uv;
+	std::vector<unsigned int> indices;
+	
 	float radSlice = 360.0f / slices * M_PI / 180.0f;
 
-	std::vector<float> vertices;
 	float y = hight / 2.0f;
 
 	// peak
-	vertices.push_back(0.0f);
-	vertices.push_back(y);
-	vertices.push_back(0.0f);
-
-	vertices.push_back(color.r);
-	vertices.push_back(color.g);
-	vertices.push_back(color.b);
-	vertices.push_back(color.a);
+	positions.push_back(glm::vec3(0.0f, y, 0.0f));
+	colors.push_back(color);
+	uv.push_back(glm::vec2(0.0f, 0.0f));
 
 	// slices
-	for (int i = 0; i < slices; ++i) {
+	for (int i = 0; i < slices; ++i) 
+	{
 		float rad = radSlice * i;
 
 		float x = radius * cos(rad);
 		float z = radius * sin(rad);
 
-		vertices.push_back(x);
-		vertices.push_back(-y);
-		vertices.push_back(z);
-
-		vertices.push_back(color.r);
-		vertices.push_back(color.g);
-		vertices.push_back(color.b);
-		vertices.push_back(color.a);
+		positions.push_back(glm::vec3(x, -y, z));
+		colors.push_back(color);
+		uv.push_back(glm::vec2(0.0f, 0.0f));
 	}
 
-	std::vector<unsigned int> indices;
 	unsigned int indicesIndex = 1;
 	for (int i = 0; i < slices; i++)
 	{
@@ -183,15 +177,8 @@ GameObject* Mesh::cone(float hight, float radius, unsigned int slices, glm::vec4
 		indicesIndex++;
 	}
 
-	VertexBufferLayout layout;
-	layout.push<float>(3);  // position
-	layout.push<float>(4);	// color
+	MeshRenderer* mesh = new MeshRenderer();
+	mesh->positions(positions)->colors(colors)->uv(uv)->indices(indices);
 
-	VertexArrayObject vertexArray;
-	VertexBufferObject vertexBuffer(&vertices[0], std::size(vertices) * sizeof(float));
-	ElementBufferObject elementBuffer(&indices[0], std::size(indices));
-	vertexArray.addBuffer(vertexBuffer, layout);
-	//draw(vertexArray, elementBuffer);
-
-	return nullptr;
+	return new GameObject("cone", mesh, new Texture("res/textures/default.png"));
 }
