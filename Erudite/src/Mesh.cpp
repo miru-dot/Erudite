@@ -154,11 +154,15 @@ GameObject* Mesh::cone(float hight, float radius, unsigned int slices, glm::vec4
 	colors.push_back(color);
 	uv.push_back(glm::vec2(0.0f, 0.0f));
 
+	// bottom
+	positions.push_back(glm::vec3(0.0f, -y, 0.0f));
+	colors.push_back(color);
+	uv.push_back(glm::vec2(0.0f, 0.0f));
+
 	// slices
 	for (int i = 0; i < slices; ++i) 
 	{
 		float rad = radSlice * i;
-
 		float x = radius * cos(rad);
 		float z = radius * sin(rad);
 
@@ -167,13 +171,23 @@ GameObject* Mesh::cone(float hight, float radius, unsigned int slices, glm::vec4
 		uv.push_back(glm::vec2(0.0f, 0.0f));
 	}
 
-	unsigned int indicesIndex = 1;
+	unsigned int bottom = 1;
+	unsigned int firstSlice = 2;
+	unsigned int peak = 0;
+
+	unsigned int indicesIndex = 2;
 	for (int i = 0; i < slices; i++)
 	{
-		indices.push_back(0);	// vertex 0 is the peak of the cone
 		unsigned int tmp = indicesIndex + 1;
-		indices.push_back(tmp > slices ? 1 : tmp);
+
+		indices.push_back(peak);	// vertex 0 is the peak of the cone
+		indices.push_back(tmp > slices ? firstSlice : tmp);
 		indices.push_back(indicesIndex);
+
+		indices.push_back(bottom);	// vertex 1 is the bottom of the cone
+		indices.push_back(tmp > slices ? firstSlice : tmp);
+		indices.push_back(indicesIndex);
+
 		indicesIndex++;
 	}
 
