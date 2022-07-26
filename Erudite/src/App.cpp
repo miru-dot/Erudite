@@ -2,20 +2,15 @@
 
 #include <string>
 
-#include "Shader.h"
-#include "Texture.h"
-#include "MeshRenderer.h"
-
-#include "VertexBufferObject.h"
-#include "ElementBufferObject.h"
-#include "VertexArrayObject.h"
-
 #include "Renderer.h"
 #include "GameObject.h"
 
 App::App() {}
 
-App::~App() {}
+App::~App() 
+{
+	terminate();
+}
 
 /// <summary>
 /// App main loop
@@ -30,12 +25,11 @@ void App::run()
 	Renderer::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	Renderer::enable(GL_DEPTH_TEST);
 
-	std::vector<GameObject*> gameObjects = {
-		Renderer::rectangle(3.0f, 4.5f, glm::vec4(1.0, 1.0, 1.0, 1.0), new Texture("res/textures/snow-forest.jpg")),
-		Renderer::cube(1.5f, 1.5f, 1.0f, glm::vec4(1.0, 1.0, 1.0, 1.0), glm::vec4(0.0, 0.0, 0.0, 1.0))
-	};
+	m_scene->add(Renderer::rectangle(3.0f, 4.5f, glm::vec4(1.0, 1.0, 1.0, 1.0), new Texture("res/textures/snow-forest.jpg")));
+	m_scene->add(Renderer::cube(1.5f, 1.5f, 1.0f, glm::vec4(1.0, 1.0, 1.0, 1.0), glm::vec4(0.0, 0.0, 0.0, 1.0)));
 
 	m_camera->m_transform->m_position->z = -2.0f;
+
 	float deltaTime = 0.0f;
 	while (!glfwWindowShouldClose(m_window))
 	{
@@ -45,12 +39,7 @@ void App::run()
 
 		Renderer::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		for (GameObject* object : gameObjects)
-		{
-			object->m_transform->m_rotation->y += deltaTime * 5.0f;
-			object->transform();
-			object->render();
-		}
+		m_scene->render(deltaTime);
 
 		checkGLError();
 
@@ -59,11 +48,6 @@ void App::run()
 
 		deltaTime = glfwGetTime() - start;
 	}
-	
-	gameObjects.clear();
-	gameObjects.shrink_to_fit();
-
-	terminate();
 }
 
 /// <summary>
@@ -71,16 +55,21 @@ void App::run()
 /// </summary>
 void App::handleInput(float deltaTime)
 {
-	float speed = 5.0f * deltaTime;
+	float moveSpeed = 5.0f * deltaTime;
+	float rotSpeed = 50.0f * deltaTime;
 
 	if (glfwGetKey(m_window, GLFW_KEY_W) == GLFW_PRESS) 
-		m_camera->m_transform->m_position->z += speed;
+		m_camera->m_transform->m_position->z += moveSpeed;
 	else if (glfwGetKey(m_window, GLFW_KEY_A) == GLFW_PRESS)
-		m_camera->m_transform->m_position->x += speed;
+		m_camera->m_transform->m_position->x += moveSpeed;
 	else if (glfwGetKey(m_window, GLFW_KEY_S) == GLFW_PRESS) 
-		m_camera->m_transform->m_position->z -= speed;
+		m_camera->m_transform->m_position->z -= moveSpeed;
 	else if (glfwGetKey(m_window, GLFW_KEY_D) == GLFW_PRESS) 
-		m_camera->m_transform->m_position->x -= speed;
+		m_camera->m_transform->m_position->x -= moveSpeed;
+	else if (glfwGetKey(m_window, GLFW_KEY_Q) == GLFW_PRESS)
+		m_camera->m_transform->m_rotation->y -= rotSpeed;
+	else if (glfwGetKey(m_window, GLFW_KEY_E) == GLFW_PRESS)
+		m_camera->m_transform->m_rotation->y += rotSpeed;
 }
 
 /// <summary>
@@ -112,6 +101,7 @@ bool App::init()
 void App::terminate()
 {
 	Camera::instance()->destroy();
+	delete m_scene;
 	glfwTerminate();
 }
 

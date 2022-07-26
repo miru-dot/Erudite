@@ -26,6 +26,7 @@
     <ClInclude Include="src\MeshRenderer.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\ElementBufferObject.h" />
+    <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Transform.h" />
@@ -42,6 +43,7 @@
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\ElementBufferObject.cpp" />
     <ClCompile Include="src\Erudite.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\Transform.cpp" />
