@@ -23,8 +23,9 @@
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\GameObject.h" />
+    <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\MeshRenderer.h" />
-    <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\OpenGL.h" />
     <ClInclude Include="src\ElementBufferObject.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Shader.h" />
@@ -39,8 +40,9 @@
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\MeshRenderer.cpp" />
-    <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\OpenGL.cpp" />
     <ClCompile Include="src\ElementBufferObject.cpp" />
     <ClCompile Include="src\Erudite.cpp" />
     <ClCompile Include="src\Scene.cpp" />
@@ -58,7 +60,10 @@
     <None Include="res\VertexShader.vert" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\textures\000010806.jpg" />
+    <Image Include="res\textures\2114387497_1ccd0bd73e.jpg" />
     <Image Include="res\textures\default.png" />
+    <Image Include="res\textures\nikon-df-sample-images-262.jpg" />
     <Image Include="res\textures\snow-forest.jpg" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -1,5 +1,5 @@
 #include "MeshRenderer.h"
-#include "Renderer.h"
+#include "OpenGL.h"
 
 MeshRenderer::MeshRenderer()
 {
@@ -40,7 +40,7 @@ void MeshRenderer::render()
 	VertexBufferObject vertexBuffer(&vertices[0], std::size(vertices) * sizeof(float));
 	ElementBufferObject elementBuffer(&m_indices[0], std::size(m_indices));
 	vertexArray.addBuffer(vertexBuffer, layout);
-	Renderer::draw(vertexArray, elementBuffer);
+	OpenGL::draw(vertexArray, elementBuffer);
 }
 
 MeshRenderer* MeshRenderer::positions(std::vector<glm::vec3> positions)

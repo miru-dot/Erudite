@@ -21,9 +21,6 @@
     <ClInclude Include="src\Shader.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="src\VertexBufferObject.h">
       <Filter>Header</Filter>
     </ClInclude>
@@ -58,6 +55,12 @@
     <ClInclude Include="src\Scene.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="src\OpenGL.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mesh.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Erudite.cpp">
@@ -70,9 +73,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="src\Shader.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderer.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="src\VertexBufferObject.cpp">
@@ -108,6 +108,12 @@
     <ClCompile Include="src\Scene.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="src\Mesh.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OpenGL.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\VertexShader.vert">
@@ -122,6 +128,15 @@
       <Filter>Resources\Textures</Filter>
     </Image>
     <Image Include="res\textures\default.png">
+      <Filter>Resources\Textures</Filter>
+    </Image>
+    <Image Include="res\textures\000010806.jpg">
+      <Filter>Resources\Textures</Filter>
+    </Image>
+    <Image Include="res\textures\2114387497_1ccd0bd73e.jpg">
+      <Filter>Resources\Textures</Filter>
+    </Image>
+    <Image Include="res\textures\nikon-df-sample-images-262.jpg">
       <Filter>Resources\Textures</Filter>
     </Image>
   </ItemGroup>

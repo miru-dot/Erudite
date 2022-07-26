@@ -2,7 +2,8 @@
 
 #include <string>
 
-#include "Renderer.h"
+#include "OpenGL.h"
+#include "Mesh.h"
 #include "GameObject.h"
 
 App::App() {}
@@ -20,13 +21,16 @@ void App::run()
 	if (!init())
 		return;
 
-	Renderer::polygonMode(GL_FILL);
-	Renderer::enable(GL_BLEND);
-	Renderer::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	Renderer::enable(GL_DEPTH_TEST);
+	OpenGL::polygonMode(GL_FILL);
+	OpenGL::enable(GL_BLEND);
+	OpenGL::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	OpenGL::enable(GL_DEPTH_TEST);
 
-	m_scene->add(Renderer::rectangle(3.0f, 4.5f, glm::vec4(1.0, 1.0, 1.0, 1.0), new Texture("res/textures/snow-forest.jpg")));
-	m_scene->add(Renderer::cube(1.5f, 1.5f, 1.0f, glm::vec4(1.0, 1.0, 1.0, 1.0), glm::vec4(0.0, 0.0, 0.0, 1.0)));
+	GameObject* cube = Mesh::cube(1.5f, 1.5f, 1.0f, glm::vec4(1.0, 1.0, 1.0, 1.0), glm::vec4(1.0, 1.0, 1.0, 1.0), new Texture("res/textures/2114387497_1ccd0bd73e.jpg"));
+	cube->m_transform->m_position->x = -10;
+
+	m_scene->add(Mesh::rectangle(3.0f, 4.5f, glm::vec4(1.0, 1.0, 1.0, 1.0), new Texture("res/textures/snow-forest.jpg")));
+	m_scene->add(cube);
 
 	m_camera->m_transform->m_position->z = -2.0f;
 
@@ -37,7 +41,7 @@ void App::run()
 
 		handleInput(deltaTime);
 
-		Renderer::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		OpenGL::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		m_scene->render(deltaTime);
 
@@ -153,7 +157,7 @@ void App::keyPressedCallback(GLFWwindow* window, int key, int scancode, int acti
 		return;
 
 	if (key == GLFW_KEY_TAB && action == GLFW_PRESS)
-		Renderer::switchPolygonMode();
+		OpenGL::switchPolygonMode();
 	else if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 }
