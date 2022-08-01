@@ -179,12 +179,12 @@ MeshRenderer* Mesh::cone(float hight, float radius, unsigned int slices, glm::ve
 	// peak
 	positions.push_back(glm::vec3(0.0f, y, 0.0f));
 	colors.push_back(color);
-	uv.push_back(glm::vec2(0.0f, 0.0f));
+	uv.push_back(glm::vec2(0.5f, 1.0f));
 
 	// bottom
 	positions.push_back(glm::vec3(0.0f, -y, 0.0f));
 	colors.push_back(color);
-	uv.push_back(glm::vec2(0.0f, 0.0f));
+	uv.push_back(glm::vec2(0.5f, 1.0f));
 
 	// slices
 	for (int i = 0; i < slices; ++i) 
@@ -195,7 +195,7 @@ MeshRenderer* Mesh::cone(float hight, float radius, unsigned int slices, glm::ve
 
 		positions.push_back(glm::vec3(x, -y, z));
 		colors.push_back(color);
-		uv.push_back(glm::vec2(0.0f, 0.0f));
+		uv.push_back(glm::vec2(0.5f, 0.0f));
 	}
 
 	unsigned int bottom = 1;

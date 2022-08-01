@@ -22,8 +22,8 @@ private:
    void terminate();                                                 // terminates the programm 
    bool createContext();                                             // creates GLFW window used as render context 
 
-   static void framebufferSizeCallback(GLFWwindow* window,           // called if the window is resized
-      int width, int height);
+   static void framebufferSizeCallback(GLFWwindow* window,
+      int width, int height);                                        // called if the window is resized
    static void keyPressedCallback(GLFWwindow* window, int key,
       int scancode, int action, int mods);                           // process keyboard input callback
    static void checkGLError();                                       // check for open gl errors it will output all errors
