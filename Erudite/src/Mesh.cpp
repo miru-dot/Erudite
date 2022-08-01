@@ -71,13 +71,20 @@ MeshRenderer* Mesh::rectangle(float width, float length, glm::vec4 color)
 		glm::vec2(0.0f, 0.0f)
 	};
 
+	std::vector<glm::vec3> normals = {
+		glm::vec3(0.0f, 0.0f, -1.0),
+		glm::vec3(0.0f, 0.0f, -1.0),
+		glm::vec3(0.0f, 0.0f, -1.0),
+		glm::vec3(0.0f, 0.0f, -1.0)
+	};
+
 	std::vector<unsigned int> indices = {
 		0, 1, 2,
 		1, 3, 2
 	};
 
 	MeshRenderer* mesh = new MeshRenderer();
-	mesh->positions(positions)->colors(colors)->uv(uv)->indices(indices);
+	mesh->positions(positions)->colors(colors)->uv(uv)->normals(normals)->indices(indices);
 	return mesh;
 }
 
@@ -97,15 +104,15 @@ MeshRenderer* Mesh::cube(float width, float length, float hight, glm::vec4 top, 
 	float z = width / 2.0f;
 
 	std::vector<glm::vec3> positions = {
-		glm::vec3(-x,  y, -z),	// front left top
-		glm::vec3( x,  y, -z),	// front right top
-		glm::vec3(-x, -y, -z),	// front left bottom
-		glm::vec3( x, -y, -z),	// front right bottom
+		glm::vec3(-x,  y, z),	// front left top
+		glm::vec3( x,  y, z),	// front right top
+		glm::vec3(-x, -y, z),	// front left bottom
+		glm::vec3( x, -y, z),	// front right bottom
 
-		glm::vec3(-x,  y,  z),	// back left top
-		glm::vec3( x,  y,  z),	// back right top
-		glm::vec3(-x, -y,  z),	// back left bottom
-		glm::vec3( x, -y,  z),	// back right bottom
+		glm::vec3(-x,  y,  -z),	// back left top
+		glm::vec3(x,  y,  -z),	// back right top
+		glm::vec3(-x, -y,  -z),	// back left bottom
+		glm::vec3(x, -y,  -z),	// back right bottom
 
 		glm::vec3(-x,  y,  z),	// back left top
 		glm::vec3( x,  y,  z),	// back right top
@@ -156,10 +163,10 @@ MeshRenderer* Mesh::cube(float width, float length, float hight, glm::vec4 top, 
 		glm::vec2(0.0f, 0.0f),
 		glm::vec2(1.0f, 0.0f),
 
-		glm::vec2(0.0f, 0.0f),
-		glm::vec2(1.0f, 0.0f),
 		glm::vec2(0.0f, 1.0f),
 		glm::vec2(1.0f, 1.0f),
+		glm::vec2(0.0f, 0.0f),
+		glm::vec2(1.0f, 0.0f),
 	};
 
 	std::vector<unsigned int> indices = {

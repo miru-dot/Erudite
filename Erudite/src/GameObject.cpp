@@ -29,7 +29,10 @@ void GameObject::render()
 void GameObject::transform()
 {
    m_shader->bind();
-   m_shader->setUMat4("u_mvp", m_camera->projection() * m_camera->view() * model());
+
+   m_shader->setUMat4("u_model",model());
+   m_shader->setUMat4("u_view", m_camera->view());
+   m_shader->setUMat4("u_projection", m_camera->projection());
 }
 
 glm::mat4 GameObject::model()

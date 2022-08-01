@@ -22,10 +22,14 @@ void App::run()
 	if (!init())
 		return;
 
-	OpenGL::polygonMode(GL_FILL);
+	OpenGL::enable(GL_DEPTH_TEST);
+	OpenGL::enable(GL_CULL_FACE);
+	OpenGL::frontFace(GL_CW);
+
 	OpenGL::enable(GL_BLEND);
 	OpenGL::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	OpenGL::enable(GL_DEPTH_TEST);
+
+	OpenGL::polygonMode(GL_FILL);
 
 	addGameObjects();
 

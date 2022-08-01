@@ -9,11 +9,13 @@ out vec4 io_fragmentColor;
 out vec2 io_texCoord;
 out vec3 io_normal;
 
-uniform mat4 u_mvp;
+uniform mat4 u_model;
+uniform mat4 u_view;
+uniform mat4 u_projection;
 
 void main()
 {
-    gl_Position = u_mvp * vec4(position, 1.0f);
+    gl_Position = u_projection * u_view * u_model * vec4(position, 1.0f);
 
     io_fragmentColor = color;
     io_texCoord = texCoord;

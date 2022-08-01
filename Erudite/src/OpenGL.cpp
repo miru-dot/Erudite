@@ -149,3 +149,13 @@ void OpenGL::blendFunction(unsigned int sfactor, unsigned int dfactor)
 {
 	glBlendFunc(sfactor, dfactor);
 }
+
+/// <summary>
+/// Define front- and back-facing polygons
+/// </summary>
+/// <param name="mode">Specifies the orientation of front-facing polygons. 
+/// GL_CW and GL_CCW are accepted. The initial value is GL_CCW.</param>
+void OpenGL::frontFace(unsigned int mode)
+{
+	glFrontFace(mode);
+}
