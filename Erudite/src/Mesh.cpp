@@ -106,18 +106,38 @@ MeshRenderer* Mesh::cube(float width, float length, float hight, glm::vec4 top, 
 		glm::vec3( x,  y,  z),	// back right top
 		glm::vec3(-x, -y,  z),	// back left bottom
 		glm::vec3( x, -y,  z),	// back right bottom
+
+		glm::vec3(-x,  y,  z),	// back left top
+		glm::vec3( x,  y,  z),	// back right top
+		glm::vec3(-x,  y, -z),	// front left top
+		glm::vec3( x,  y, -z),	// front right top
+
+		glm::vec3(-x, -y,  z),	// back left bottom
+		glm::vec3( x, -y,  z),	// back right bottom
+		glm::vec3(-x, -y, -z),	// front left bottom
+		glm::vec3( x, -y, -z),	// front right bottom
 	};
 
 	std::vector<glm::vec4> colors = {
-		glm::vec4(top.r, top.g, top.b, top.a),
-		glm::vec4(top.r, top.g, top.b, top.a),
-		glm::vec4(bottom.r, bottom.g, bottom.b, bottom.a),
-		glm::vec4(bottom.r, bottom.g, bottom.b, bottom.a),
+		glm::vec4(top),
+		glm::vec4(top),
+		glm::vec4(bottom),
+		glm::vec4(bottom),
 
-		glm::vec4(top.r, top.g, top.b, top.a),
-		glm::vec4(top.r, top.g, top.b, top.a),
-		glm::vec4(bottom.r, bottom.g, bottom.b, bottom.a),
-		glm::vec4(bottom.r, bottom.g, bottom.b, bottom.a),
+		glm::vec4(top),
+		glm::vec4(top),
+		glm::vec4(bottom),
+		glm::vec4(bottom),
+
+		glm::vec4(top),
+		glm::vec4(top),
+		glm::vec4(top),
+		glm::vec4(top),
+
+		glm::vec4(bottom),
+		glm::vec4(bottom),
+		glm::vec4(bottom),
+		glm::vec4(bottom),
 	};
 
 	std::vector<glm::vec2> uv = {
@@ -130,6 +150,16 @@ MeshRenderer* Mesh::cube(float width, float length, float hight, glm::vec4 top, 
 		glm::vec2(1.0f, 1.0f),
 		glm::vec2(0.0f, 0.0f),
 		glm::vec2(1.0f, 0.0f),
+
+		glm::vec2(0.0f, 1.0f),
+		glm::vec2(1.0f, 1.0f),
+		glm::vec2(0.0f, 0.0f),
+		glm::vec2(1.0f, 0.0f),
+
+		glm::vec2(0.0f, 0.0f),
+		glm::vec2(1.0f, 0.0f),
+		glm::vec2(0.0f, 1.0f),
+		glm::vec2(1.0f, 1.0f),
 	};
 
 	std::vector<unsigned int> indices = {
@@ -139,11 +169,11 @@ MeshRenderer* Mesh::cube(float width, float length, float hight, glm::vec4 top, 
 		5, 4, 7,  // back face triangle 1
 		4, 6, 7,  // back face triangle 2
 
-		4, 5, 0,  // top face triangle 1
-		5, 1, 0,  // top face triangle 2
+		10, 11, 8,// top face triangle 1
+		11, 9, 8, // top face triangle 2
 
-		2, 3, 6,  // bottom face triangle 1
-		3, 7, 6,  // bottom face triangle 2
+		12, 13, 15,  // bottom face triangle 1
+		12, 15, 14,  // bottom face triangle 2
 
 		4, 0, 6,  // left face triangle 1
 		0, 2, 6,  // left face triangle 2
