@@ -72,10 +72,10 @@ MeshRenderer* Mesh::rectangle(float width, float length, glm::vec4 color)
 	};
 
 	std::vector<glm::vec3> normals = {
-		glm::vec3(0.0f, 0.0f, -1.0),
-		glm::vec3(0.0f, 0.0f, -1.0),
-		glm::vec3(0.0f, 0.0f, -1.0),
-		glm::vec3(0.0f, 0.0f, -1.0)
+		glm::vec3(0.0f, 0.0f, 1.0),
+		glm::vec3(0.0f, 0.0f, 1.0),
+		glm::vec3(0.0f, 0.0f, 1.0),
+		glm::vec3(0.0f, 0.0f, 1.0)
 	};
 
 	std::vector<unsigned int> indices = {

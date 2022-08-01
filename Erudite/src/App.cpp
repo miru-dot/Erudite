@@ -23,8 +23,8 @@ void App::run()
 		return;
 
 	OpenGL::enable(GL_DEPTH_TEST);
-	OpenGL::enable(GL_CULL_FACE);
-	OpenGL::frontFace(GL_CW);
+	//OpenGL::enable(GL_CULL_FACE);
+	//OpenGL::frontFace(GL_CW);
 
 	OpenGL::enable(GL_BLEND);
 	OpenGL::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -32,8 +32,6 @@ void App::run()
 	OpenGL::polygonMode(GL_FILL);
 
 	addGameObjects();
-
-	m_camera->m_transform->m_position->z = -5.0f;
 
 	float deltaTime = 0.0f;
 	while (!glfwWindowShouldClose(m_window))
@@ -73,6 +71,7 @@ void App::addGameObjects()
 
 	// rectangle
 	GameObject* rectangle = new GameObject("Snowy Rectangle", Mesh::rectangle(3.0f, 4.5f), new Texture("res/textures/snow-forest.jpg"));
+	rectangle->m_transform->m_rotation->x = 90;
 	m_scene->add(rectangle);
 
 	// cone
