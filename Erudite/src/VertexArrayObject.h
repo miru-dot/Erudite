@@ -6,15 +6,15 @@
 class VertexArrayObject 
 {
 public:
-   VertexArrayObject();
-   ~VertexArrayObject();
+   VertexArrayObject();                                              // constructor
+   ~VertexArrayObject();                                             // destructor
 
-   void addBuffer(const VertexBufferObject& vertexBuffer, VertexBufferLayout& layout);
-   void draw(const VertexArrayObject& vertexArray, const ElementBufferObject& elementBuffer);
+   void addBuffer(const VertexBufferObject& vertexBuffer, 
+      VertexBufferLayout& layout);                                   // add a vertex buffer to the vao
 
-   void bind() const;
-   void unbind() const;
+   void bind() const;                                                // bind the VAO
+   void unbind() const;                                              // unbind the VAO
 
 private:
-   unsigned int m_id;
+   unsigned int m_id;                                                // VAO opengl id
 };

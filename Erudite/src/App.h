@@ -5,7 +5,6 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-#include <iostream>
 #include "Camera.h"
 #include "Scene.h"
 
@@ -17,6 +16,7 @@ public:
    void run();                                                       // programm loop
 
 private:
+   void addGameObjects();                                            // add gameobjects
    void handleInput(float deltaTime);                                // handle input
    bool init();                                                      // initalizes the programm   
    void terminate();                                                 // terminates the programm 
@@ -30,7 +30,7 @@ private:
 
    GLFWwindow* m_window = nullptr;                                   // the render context
    Camera* m_camera = Camera::instance();                            // camera
-   Scene* m_scene = new Scene();                                       // scene
+   Scene* m_scene = new Scene();                                     // scene
    const int m_width = 1920;                                         // window width
    const int m_height = 1080;                                        // window height
 };

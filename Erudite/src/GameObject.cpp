@@ -6,6 +6,9 @@ GameObject::GameObject(std::string name, MeshRenderer* mesh, Texture* texture) :
    m_shader = new Shader("res/VertexShader.vert", "res/FragmentShader.frag");
    m_shader->bind();
    m_shader->setU1i("u_texture", m_textureSlot);
+   
+   // sets the buffer layout internally, positions -> colors -> uv ... (do it only once!)
+   m_mesh->determineBufferLayout();
 }
 
 GameObject::~GameObject()

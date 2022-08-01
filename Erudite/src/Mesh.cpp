@@ -1,14 +1,20 @@
 #include "Mesh.h"
 #include <corecrt_math_defines.h>
 
-GameObject* Mesh::triangle(float size, glm::vec4 color, Texture* texture)
+/// <summary>
+/// Constructs a triangle
+/// </summary>
+/// <param name="size">triangle size</param>
+/// <param name="color">triangle color</param>
+/// <returns>triangle mesh</returns>
+MeshRenderer* Mesh::triangle(float size, glm::vec4 color)
 {
 	float p = size / 2.0f;
 
 	std::vector<glm::vec3> positions = {
 		glm::vec3(0.0f,  p, 0.0f),
-		glm::vec3(p, -p, 0.0f),
-		glm::vec3(-p, -p, 0.0f)
+		glm::vec3(   p, -p, 0.0f),
+		glm::vec3(  -p, -p, 0.0f)
 	};
 
 	std::vector<glm::vec4> colors = {
@@ -29,20 +35,26 @@ GameObject* Mesh::triangle(float size, glm::vec4 color, Texture* texture)
 
 	MeshRenderer* mesh = new MeshRenderer();
 	mesh->positions(positions)->colors(colors)->uv(uv)->indices(indices);
-
-	return new GameObject("triangle", mesh, texture);
+	return mesh;
 }
 
-GameObject* Mesh::rectangle(float width, float length, glm::vec4 color, Texture* texture)
+/// <summary>
+/// Constructs a rectangle
+/// </summary>
+/// <param name="width">rectangle width</param>
+/// <param name="length">rectangle length</param>
+/// <param name="color">rectangle color</param>
+/// <returns>rectangle mesh</returns>
+MeshRenderer* Mesh::rectangle(float width, float length, glm::vec4 color)
 {
 	float x = length / 2.0f;
 	float y = width / 2.0f;
 
 	std::vector<glm::vec3> positions = {
 		glm::vec3(-x,  y, 0.0f),	// left top
-		glm::vec3(x,  y, 0.0f),	// right top
+		glm::vec3( x,  y, 0.0f),	// right top
 		glm::vec3(-x, -y, 0.0f),	// left bottom
-		glm::vec3(x, -y, 0.0f)		// right bottom
+		glm::vec3( x, -y, 0.0f)		// right bottom
 	};
 
 	std::vector<glm::vec4> colors = {
@@ -66,11 +78,19 @@ GameObject* Mesh::rectangle(float width, float length, glm::vec4 color, Texture*
 
 	MeshRenderer* mesh = new MeshRenderer();
 	mesh->positions(positions)->colors(colors)->uv(uv)->indices(indices);
-
-	return new GameObject("rectangle", mesh, texture);
+	return mesh;
 }
 
-GameObject* Mesh::cube(float width, float length, float hight, glm::vec4 top, glm::vec4 bottom, Texture* texture)
+/// <summary>
+/// Constructs a cube
+/// </summary>
+/// <param name="width">cube width</param>
+/// <param name="length">cube length</param>
+/// <param name="hight">cube hight</param>
+/// <param name="top">cube top color</param>
+/// <param name="bottom">cube bottom color</param>
+/// <returns>cube mesh</returns>
+MeshRenderer* Mesh::cube(float width, float length, float hight, glm::vec4 top, glm::vec4 bottom)
 {
 	float x = length / 2.0f;
 	float y = hight / 2.0f;
@@ -78,14 +98,14 @@ GameObject* Mesh::cube(float width, float length, float hight, glm::vec4 top, gl
 
 	std::vector<glm::vec3> positions = {
 		glm::vec3(-x,  y, -z),	// front left top
-		glm::vec3(x,  y, -z),	// front right top
+		glm::vec3( x,  y, -z),	// front right top
 		glm::vec3(-x, -y, -z),	// front left bottom
-		glm::vec3(x, -y, -z),	// front right bottom
+		glm::vec3( x, -y, -z),	// front right bottom
 
 		glm::vec3(-x,  y,  z),	// back left top
-		glm::vec3(x,  y,  z),	// back right top
+		glm::vec3( x,  y,  z),	// back right top
 		glm::vec3(-x, -y,  z),	// back left bottom
-		glm::vec3(x, -y,  z),	// back right bottom
+		glm::vec3( x, -y,  z),	// back right bottom
 	};
 
 	std::vector<glm::vec4> colors = {
@@ -134,11 +154,18 @@ GameObject* Mesh::cube(float width, float length, float hight, glm::vec4 top, gl
 
 	MeshRenderer* mesh = new MeshRenderer();
 	mesh->positions(positions)->colors(colors)->uv(uv)->indices(indices);
-
-	return new GameObject("cube", mesh, texture);
+	return mesh;
 }
 
-GameObject* Mesh::cone(float hight, float radius, unsigned int slices, glm::vec4 color)
+/// <summary>
+/// Constructs a cone
+/// </summary>
+/// <param name="hight">cone hight</param>
+/// <param name="radius">cone radius</param>
+/// <param name="slices">cone slices</param>
+/// <param name="color">cone color</param>
+/// <returns>cone mesh</returns>
+MeshRenderer* Mesh::cone(float hight, float radius, unsigned int slices, glm::vec4 color)
 {
 	std::vector<glm::vec3> positions;
 	std::vector<glm::vec4> colors;
@@ -193,6 +220,5 @@ GameObject* Mesh::cone(float hight, float radius, unsigned int slices, glm::vec4
 
 	MeshRenderer* mesh = new MeshRenderer();
 	mesh->positions(positions)->colors(colors)->uv(uv)->indices(indices);
-
-	return new GameObject("cone", mesh, new Texture("res/textures/default.png"));
+	return mesh;
 }

@@ -9,21 +9,22 @@
 class GameObject
 {
 public:
-   GameObject(std::string name, MeshRenderer* mesh, Texture* texture);
-   ~GameObject();
+   GameObject(std::string name, MeshRenderer* mesh, 
+      Texture* texture);                                             // consturctor
+   ~GameObject();                                                    // destructor
 
-   void render();
-   void transform();
+   void render();                                                    // renders the gameobject on the screen
+   void transform();                                                 // sets the transformation matrix
 
-   glm::mat4 model();
+   glm::mat4 model();                                                // get the this model transformation matrix
 
-   Shader* m_shader;
-   Transform* m_transform;
+   Shader* m_shader;                                                 // shader instance
+   Transform* m_transform;                                           // transform of this gameobject
 
 private:
-   const unsigned int m_textureSlot = 0;
-   std::string m_name;
-   Texture* m_texture;
-   MeshRenderer* m_mesh;
-   Camera* m_camera = Camera::instance();
+   const unsigned int m_textureSlot = 0;                             // used texture slot
+   std::string m_name;                                               // name of this gameobject
+   Texture* m_texture;                                               // texture of this gameobject
+   MeshRenderer* m_mesh;                                             // mesh of this gameobject
+   Camera* m_camera = Camera::instance();                            // camera instance
 };

@@ -1,6 +1,7 @@
 #include "App.h"
 
 #include <string>
+#include <math.h>
 
 #include "OpenGL.h"
 #include "Mesh.h"
@@ -26,14 +27,9 @@ void App::run()
 	OpenGL::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	OpenGL::enable(GL_DEPTH_TEST);
 
-	GameObject* cube = Mesh::cube(1.5f, 1.5f, 1.0f, glm::vec4(1.0, 1.0, 1.0, 1.0), glm::vec4(1.0, 1.0, 1.0, 1.0), new Texture("res/textures/2114387497_1ccd0bd73e.jpg"));
-	cube->m_transform->m_position->x = -10;
+	addGameObjects();
 
-	m_scene->add(cube);
-	m_scene->add(Mesh::rectangle(3.0f, 4.5f, glm::vec4(1.0, 1.0, 1.0, 1.0), new Texture("res/textures/snow-forest.jpg")));
-	m_scene->add(Mesh::cone(2.5f, 1.0f, 16));
-
-	m_camera->m_transform->m_position->z = -2.0f;
+	m_camera->m_transform->m_position->z = -5.0f;
 
 	float deltaTime = 0.0f;
 	while (!glfwWindowShouldClose(m_window))
@@ -44,7 +40,7 @@ void App::run()
 
 		OpenGL::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		m_scene->render(deltaTime);
+		m_scene->render();
 
 		checkGLError();
 
@@ -53,6 +49,27 @@ void App::run()
 
 		deltaTime = glfwGetTime() - start;
 	}
+}
+
+/// <summary>
+/// Add gameobjects to scene
+/// </summary>
+void App::addGameObjects()
+{
+	GameObject* triangle = new GameObject("Fancy Triangle", Mesh::triangle(2.0f), new Texture("res/textures/nikon-df-sample-images-262.jpg"));
+	triangle->m_transform->m_position->x = -10;
+	m_scene->add(triangle);
+
+	GameObject* cube = new GameObject("Fancy Cube", Mesh::cube(1.5f, 1.5f, 1.0f), new Texture("res/textures/2114387497_1ccd0bd73e.jpg"));
+	cube->m_transform->m_position->x = -5;
+	m_scene->add(cube);
+
+	GameObject* rectangle = new GameObject("Rectangle", Mesh::rectangle(3.0f, 4.5f), new Texture("res/textures/snow-forest.jpg"));
+	m_scene->add(rectangle);
+
+	GameObject* cone = new GameObject("Cone", Mesh::cone(2.5f, 1.0f, 100, glm::vec4(0.7, 0.8, 0.9, 1.0)), new Texture("res/textures/default.png"));
+	cone->m_transform->m_position->x = 5;
+	m_scene->add(cone);
 }
 
 /// <summary>
@@ -140,6 +157,10 @@ bool App::createContext()
 /// <param name="height">Height of the window</param>
 void App::framebufferSizeCallback(GLFWwindow* window, int width, int height)
 {
+	// return if minimized
+	if (width == 0 || height == 0)
+		return;
+
 	Camera::instance()->m_ratio = (float)width / (float)height;
 	glViewport(0, 0, width, height);
 }

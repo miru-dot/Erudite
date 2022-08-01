@@ -4,15 +4,16 @@
 
 class Scene {
 public:
-   Scene();
-   ~Scene();
+   Scene();                                                          // constructor
+   ~Scene();                                                         // destructor
 
-   void render(float deltaTime);
-   void add(GameObject* gameObject);
-   void remove(GameObject* gameObject);
-   void clear();
+   void render();                                                    // renders all objects inside the scene
+   void add(GameObject* gameObject);                                 // adds a gameobject to the scene
+   void remove(unsigned int index);                                  // removes a gameobject from the scene
+   GameObject* at(unsigned int index);                               // gets a gameobject at index
+   void clear();                                                     // clears / deletes all gameobjects from the scene
 
 private:
-   Camera* m_camera = Camera::instance();
-   std::list<GameObject*>* m_gameObjects = new std::list<GameObject*>();
+   Camera* m_camera = Camera::instance();                            // camera instance
+   std::vector<GameObject*>* m_gameObjects = new std::vector<GameObject*>();  // All gameobjects inside the scene
 };

@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 Camera::Camera() :
-   m_transform(new Transform()), m_fieldOfView(90.0f), m_farPlane(100.0f), m_nearPlane(0.1f), m_ratio(1.777f)
+   m_transform(new Transform()), m_fieldOfView(115.0f), m_farPlane(100.0f), m_nearPlane(0.1f), m_ratio(1.777f)
 {
 }
 

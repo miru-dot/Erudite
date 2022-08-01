@@ -20,6 +20,6 @@ public:
    float m_farPlane;                                                 // far camera plane
    float m_ratio;                                                    // screen width / height ratio
 private:
-   Camera();
+   Camera();                                                         // constructor
    static inline Camera* m_instance;                                 // this instance
 };
