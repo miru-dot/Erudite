@@ -136,7 +136,7 @@
     <Image Include="res\textures\2114387497_1ccd0bd73e.jpg">
       <Filter>Resources\Textures</Filter>
     </Image>
-    <Image Include="res\textures\nikon-df-sample-images-262.jpg">
+    <Image Include="res\textures\wood.png">
       <Filter>Resources\Textures</Filter>
     </Image>
   </ItemGroup>

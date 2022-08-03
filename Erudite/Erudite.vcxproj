@@ -63,8 +63,8 @@
     <Image Include="res\textures\000010806.jpg" />
     <Image Include="res\textures\2114387497_1ccd0bd73e.jpg" />
     <Image Include="res\textures\default.png" />
-    <Image Include="res\textures\nikon-df-sample-images-262.jpg" />
     <Image Include="res\textures\snow-forest.jpg" />
+    <Image Include="res\textures\wood.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -11,6 +11,7 @@ public:
    void add(GameObject* gameObject);                                 // adds a gameobject to the scene
    void remove(unsigned int index);                                  // removes a gameobject from the scene
    GameObject* at(unsigned int index);                               // gets a gameobject at index
+   GameObject* get(std::string name);                                // gets a gameobject by name
    void clear();                                                     // clears / deletes all gameobjects from the scene
 
 private:

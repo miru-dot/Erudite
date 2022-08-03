@@ -28,11 +28,17 @@ void GameObject::render()
 
 void GameObject::transform()
 {
+   glm::mat4 model = this->model();
+   glm::mat4 view = m_camera->view();
+   glm::mat4 projection = m_camera->projection();
+
    m_shader->bind();
 
-   m_shader->setUMat4("u_model",model());
-   m_shader->setUMat4("u_view", m_camera->view());
-   m_shader->setUMat4("u_projection", m_camera->projection());
+   m_shader->setUMat4("u_model", model);
+   m_shader->setUMat4("u_view", view);
+   m_shader->setUMat4("u_projection", projection);
+   m_shader->setUMat4("u_tangentToWorld", glm::transpose(glm::inverse(model)));
+   m_shader->setUVec3("u_cameraPosition", *m_camera->m_transform->m_position);
 }
 
 glm::mat4 GameObject::model()

@@ -138,6 +138,11 @@ void Shader::setUMat4(const std::string& name, glm::mat4 matrix)
 	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &matrix[0][0]);
 }
 
+void Shader::setUVec3(const std::string& name, glm::vec3 vector)
+{
+	glUniform3fv(getUniformLocation(name), 1, &vector[0]);
+}
+
 unsigned int Shader::getUniformLocation(const std::string& name)
 {
 	if (m_unformLocations.find(name) != m_unformLocations.end())

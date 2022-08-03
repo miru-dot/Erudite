@@ -57,6 +57,21 @@ GameObject* Scene::at(unsigned int index)
 }
 
 /// <summary>
+/// Get a gameobject by name
+/// </summary>
+/// <param name="name">name of the gameobject</param>
+/// <returns>the game object with name or nullptr</returns>
+GameObject* Scene::get(std::string name)
+{
+	for(GameObject* g : *m_gameObjects)
+	{
+		if (g->m_name == name)
+			return g;
+	}
+	return nullptr;
+}
+
+/// <summary>
 /// Clears / deletes all gameobjects from the scene
 /// </summary>
 void Scene::clear()

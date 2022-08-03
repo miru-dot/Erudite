@@ -23,8 +23,8 @@ void App::run()
 		return;
 
 	OpenGL::enable(GL_DEPTH_TEST);
-	//OpenGL::enable(GL_CULL_FACE);
-	//OpenGL::frontFace(GL_CW);
+	OpenGL::enable(GL_CULL_FACE);
+	OpenGL::frontFace(GL_CW);
 
 	OpenGL::enable(GL_BLEND);
 	OpenGL::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -42,6 +42,9 @@ void App::run()
 
 		OpenGL::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		GameObject* cube = m_scene->get("Fancy Cube");
+		cube->m_transform->m_rotation->y += 20 * deltaTime;
+
 		m_scene->render();
 
 		checkGLError();
@@ -58,28 +61,29 @@ void App::run()
 /// </summary>
 void App::addGameObjects()
 {
-	// triangle
-	GameObject* triangle = new GameObject("Nature Triangle", Mesh::triangle(2.0f), new Texture("res/textures/nikon-df-sample-images-262.jpg"));
-	triangle->m_transform->m_position->x = -8;
+	/* triangle
+	GameObject* triangle = new GameObject("Nature Triangle", Mesh::triangle(2.0f, glm::vec4(0.2f, 0.2f, 0.8f, 1.0f)));
+	triangle->m_transform->m_position->x = 5;
+	triangle->m_transform->m_rotation->x = -90;
 	m_scene->add(triangle);
+	*/
+	/* rectangle
+	GameObject* rectangle = new GameObject("Snowy Rectangle", Mesh::rectangle(3.0f, 4.5f), new Texture("res/textures/snow-forest.jpg"));
+	//rectangle->m_transform->m_rotation->x = -45;
+	m_scene->add(rectangle);
+	*/
 
 	// cube
-	GameObject* cube = new GameObject("Fancy Cube", Mesh::cube(1.5f, 1.5f, 1.0f), new Texture("res/textures/2114387497_1ccd0bd73e.jpg"));
-	cube->m_transform->m_position->x = -5;
-	cube->m_transform->m_rotation->z = 90;
+	GameObject* cube = new GameObject("Fancy Cube", Mesh::cube(2.0f, 2.0f, 2.0f), new Texture("res/textures/wood.png"));
 	m_scene->add(cube);
 
-	// rectangle
-	GameObject* rectangle = new GameObject("Snowy Rectangle", Mesh::rectangle(3.0f, 4.5f), new Texture("res/textures/snow-forest.jpg"));
-	rectangle->m_transform->m_rotation->x = 90;
-	m_scene->add(rectangle);
-
-	// cone
+	/* cone
 	MeshRenderer* coneMesh = Mesh::cone(2.5f, 1.0f, 100, glm::vec4(0.7, 0.8, 0.9, 1.0));
 	coneMesh->primitive(GL_LINES);
 	GameObject* cone = new GameObject("Line Cone", coneMesh, new Texture("res/textures/000010806.jpg"));
 	cone->m_transform->m_position->x = 5;
 	m_scene->add(cone);
+	*/
 }
 
 /// <summary>

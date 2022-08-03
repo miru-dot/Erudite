@@ -3,7 +3,7 @@
 Camera::Camera() :
    m_transform(new Transform()), m_fieldOfView(115.0f), m_farPlane(100.0f), m_nearPlane(0.1f), m_ratio(1.777f)
 {
-   m_transform->m_rotation->x = 30;
+   //m_transform->m_rotation->x = 30;
 
    m_transform->m_position->y = -1.5;
    m_transform->m_position->z = -5.0f;

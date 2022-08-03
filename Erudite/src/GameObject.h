@@ -10,7 +10,7 @@ class GameObject
 {
 public:
    GameObject(std::string name, MeshRenderer* mesh, 
-      Texture* texture);                                             // consturctor
+      Texture* texture = new Texture("res/textures/default.png"));   // consturctor
    ~GameObject();                                                    // destructor
 
    void render();                                                    // renders the gameobject on the screen
@@ -20,10 +20,9 @@ public:
 
    Shader* m_shader;                                                 // shader instance
    Transform* m_transform;                                           // transform of this gameobject
-
+   std::string m_name;                                               // name of this gameobject
 private:
    const unsigned int m_textureSlot = 0;                             // used texture slot
-   std::string m_name;                                               // name of this gameobject
    Texture* m_texture;                                               // texture of this gameobject
    MeshRenderer* m_mesh;                                             // mesh of this gameobject
    Camera* m_camera = Camera::instance();                            // camera instance
