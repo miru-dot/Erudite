@@ -83,7 +83,7 @@ MeshRenderer* Mesh::rectangle(float width, float length, glm::vec4 color)
 /// <param name="top">cube top color</param>
 /// <param name="bottom">cube bottom color</param>
 /// <returns>cube mesh</returns>
-MeshRenderer* Mesh::cube(float width, float length, float hight, glm::vec4 top, glm::vec4 bottom)
+MeshRenderer* Mesh::cube(float width, float length, float hight, glm::vec4 color)
 {
 	float x = length / 2.0f;
 	float y = hight / 2.0f;
@@ -95,10 +95,10 @@ MeshRenderer* Mesh::cube(float width, float length, float hight, glm::vec4 top, 
 		glm::vec3(-x, -y, z),	// front left bottom
 		glm::vec3( x, -y, z),	// front right bottom
 
-		glm::vec3(-x,  y,  -z),	// back left top
-		glm::vec3( x,  y,  -z),	// back right top
-		glm::vec3(-x, -y,  -z),	// back left bottom
-		glm::vec3( x, -y,  -z),	// back right bottom
+		glm::vec3(-x,  y, -z),	// back left top
+		glm::vec3( x,  y, -z),	// back right top
+		glm::vec3(-x, -y, -z),	// back left bottom
+		glm::vec3( x, -y, -z),	// back right bottom
 		
 		glm::vec3(-x,  y,  z),	// back left top
 		glm::vec3( x,  y,  z),	// back right top
@@ -111,27 +111,7 @@ MeshRenderer* Mesh::cube(float width, float length, float hight, glm::vec4 top, 
 		glm::vec3( x, -y, -z),	// front right bottom
 	};
 
-	std::vector<glm::vec4> colors = {
-		glm::vec4(top),
-		glm::vec4(top),
-		glm::vec4(bottom),
-		glm::vec4(bottom),
-
-		glm::vec4(top),
-		glm::vec4(top),
-		glm::vec4(bottom),
-		glm::vec4(bottom),
-
-		glm::vec4(top),
-		glm::vec4(top),
-		glm::vec4(top),
-		glm::vec4(top),
-
-		glm::vec4(bottom),
-		glm::vec4(bottom),
-		glm::vec4(bottom),
-		glm::vec4(bottom),
-	};
+	std::vector<glm::vec4> colors(16, color);
 
 	std::vector<glm::vec2> uv = {
 		glm::vec2(1.0f, 1.0f),
@@ -155,28 +135,39 @@ MeshRenderer* Mesh::cube(float width, float length, float hight, glm::vec4 top, 
 		glm::vec2(1.0f, 0.0f)
 	};
 
-	float val = 0.33333333;
+	float v = 0.33333333;
 
 	std::vector<glm::vec3> normals = {
-		glm::vec3(-val,  val, -val),	// front left top
-		glm::vec3( val,  val, -val),	// front right top
-		glm::vec3(-val, -val, -val),	// front left bottom
-		glm::vec3( val, -val, -val),	// front right bottom
+		glm::vec3(-v,  v, -v),	// front left top
+		glm::vec3( v,  v, -v),	// front right top
+		glm::vec3(-v, -v, -v),	// front left bottom
+		glm::vec3( v, -v, -v),	// front right bottom
 
-		glm::vec3(-val,  val, val),	// back left top
-		glm::vec3( val,  val, val),	// back right top
-		glm::vec3(-val, -val, val),	// back left bottom
-		glm::vec3( val, -val, val),	// back right bottom
+		glm::vec3(-v,  v, v),	// back left top
+		glm::vec3( v,  v, v),	// back right top
+		glm::vec3(-v, -v, v),	// back left bottom
+		glm::vec3( v, -v, v),	// back right bottom
 
-		glm::vec3(-val,  val, -val),	// back left top
-		glm::vec3( val,  val, -val),	// back right top
-		glm::vec3(-val,  val,  val),	// front left top
-		glm::vec3( val,  val,  val),	// front right top
+		/*
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f),
 
-		glm::vec3(-val, -val, -val),  // back left bottom
-		glm::vec3( val, -val, -val),  // back right bottom
-		glm::vec3(-val, -val,  val),	// front left bottom
-		glm::vec3( val, -val,  val),	// front right bottom
+		glm::vec3(0.0f, -1.0f, 0.0f),
+		glm::vec3(0.0f, -1.0f, 0.0f),
+		glm::vec3(0.0f, -1.0f, 0.0f),
+		glm::vec3(0.0f, -1.0f, 0.0f), */
+
+		glm::vec3(-v,  v, v),	// back left top
+		glm::vec3( v,  v, v),	// back right top
+		glm::vec3(-v,  v, -v),	// front left top
+		glm::vec3( v,  v, -v),	// front right top
+
+		glm::vec3(-v, -v, v),   // back left bottom
+		glm::vec3( v, -v, v),   // back right bottom
+		glm::vec3(-v, -v, -v),	// front left bottom
+		glm::vec3( v, -v, -v),	// front right bottom
 	};
 
 	std::vector<unsigned int> indices = {

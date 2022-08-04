@@ -1,5 +1,11 @@
 #include "GameObject.h"
 
+/// <summary>
+/// Constructor
+/// </summary>
+/// <param name="name">gameobject name</param>
+/// <param name="mesh">gameobject mesh</param>
+/// <param name="texture">gameobject texture</param>
 GameObject::GameObject(std::string name, MeshRenderer* mesh, Texture* texture) :
    m_name(name), m_mesh(mesh), m_texture(texture), m_transform(new Transform())
 {
@@ -11,6 +17,9 @@ GameObject::GameObject(std::string name, MeshRenderer* mesh, Texture* texture) :
    m_mesh->determineBufferLayout();
 }
 
+/// <summary>
+/// destructor
+/// </summary>
 GameObject::~GameObject()
 {
    if (m_mesh)
@@ -19,6 +28,9 @@ GameObject::~GameObject()
       delete m_texture;
 }
 
+/// <summary>
+///  Draws the gameobject
+/// </summary>
 void GameObject::render()
 {
    m_shader->bind();
@@ -26,6 +38,9 @@ void GameObject::render()
    m_mesh->render();
 }
 
+/// <summary>
+/// Sets the transform and necessary data
+/// </summary>
 void GameObject::transform()
 {
    glm::mat4 model = this->model();
@@ -37,10 +52,15 @@ void GameObject::transform()
    m_shader->setUMat4("u_model", model);
    m_shader->setUMat4("u_view", view);
    m_shader->setUMat4("u_projection", projection);
+
+   m_shader->setUMat4("u_lightData", m_light->lightData());
    m_shader->setUMat4("u_tangentToWorld", glm::transpose(glm::inverse(model)));
-   m_shader->setUVec3("u_cameraPosition", *m_camera->m_transform->m_position);
 }
 
+/// <summary>
+/// Get the gameobjects model matrix
+/// </summary>
+/// <returns></returns>
 glm::mat4 GameObject::model()
 {
    return m_transform->trs();

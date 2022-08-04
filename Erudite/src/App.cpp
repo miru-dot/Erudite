@@ -23,8 +23,8 @@ void App::run()
 		return;
 
 	OpenGL::enable(GL_DEPTH_TEST);
-	OpenGL::enable(GL_CULL_FACE);
-	OpenGL::frontFace(GL_CW);
+	//OpenGL::enable(GL_CULL_FACE);
+	//OpenGL::frontFace(GL_CW);
 
 	OpenGL::enable(GL_BLEND);
 	OpenGL::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -42,9 +42,14 @@ void App::run()
 
 		OpenGL::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		GameObject* cube = m_scene->get("Fancy Cube");
-		cube->m_transform->m_rotation->y += 20 * deltaTime;
-
+		GameObject* object = m_scene->get("Fancy Cube");
+		if (object) 
+		{
+			float speed = 20 * deltaTime;
+			object->m_transform->m_rotation->y += speed;
+			object->m_transform->m_rotation->z += speed;
+		}
+		
 		m_scene->render();
 
 		checkGLError();
@@ -67,14 +72,15 @@ void App::addGameObjects()
 	triangle->m_transform->m_rotation->x = -90;
 	m_scene->add(triangle);
 	*/
-	/* rectangle
-	GameObject* rectangle = new GameObject("Snowy Rectangle", Mesh::rectangle(3.0f, 4.5f), new Texture("res/textures/snow-forest.jpg"));
-	//rectangle->m_transform->m_rotation->x = -45;
+
+	// rectangle
+	GameObject* rectangle = new GameObject("Snowy Rectangle", Mesh::rectangle(1.5f, 2.0f), new Texture("res/textures/snow-forest.jpg"));
+	rectangle->m_transform->m_position->x = 5;
+	rectangle->m_transform->m_rotation->x = -90;
 	m_scene->add(rectangle);
-	*/
 
 	// cube
-	GameObject* cube = new GameObject("Fancy Cube", Mesh::cube(2.0f, 2.0f, 2.0f), new Texture("res/textures/wood.png"));
+	GameObject* cube = new GameObject("Fancy Cube", Mesh::cube(1.0f, 1.0f, 1.0f), new Texture("res/textures/wood.png"));
 	m_scene->add(cube);
 
 	/* cone
@@ -152,7 +158,7 @@ bool App::createContext()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	m_window = glfwCreateWindow(m_width, m_height, "SILIAN OPENGL", NULL, NULL);
+	m_window = glfwCreateWindow(m_width, m_height, "OPENGL", NULL, NULL);
 	if (m_window == nullptr)
 		return false;
 

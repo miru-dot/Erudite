@@ -1,13 +1,12 @@
 #pragma once
 
-#pragma once
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "VertexArrayObject.h"
 #include "ElementBufferObject.h"
 
-class OpenGL
+static class OpenGL
 {
 public:
    static void drawElements(unsigned int mode, 

@@ -6,6 +6,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "Camera.h"
+#include "Light.h"
 #include "Scene.h"
 
 class App 
@@ -30,6 +31,7 @@ private:
 
    GLFWwindow* m_window = nullptr;                                   // the render context
    Camera* m_camera = Camera::instance();                            // camera
+   Light* m_light = Light::instance();                               // light
    Scene* m_scene = new Scene();                                     // scene
    const int m_width = 1920;                                         // window width
    const int m_height = 1080;                                        // window height

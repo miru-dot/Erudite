@@ -61,6 +61,9 @@
     <ClInclude Include="src\Mesh.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="src\Light.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Erudite.cpp">
@@ -112,6 +115,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="src\OpenGL.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Light.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

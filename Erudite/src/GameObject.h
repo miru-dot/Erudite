@@ -5,6 +5,7 @@
 #include "MeshRenderer.h"
 #include "Transform.h"
 #include "Camera.h"
+#include "Light.h"
 
 class GameObject
 {
@@ -26,4 +27,5 @@ private:
    Texture* m_texture;                                               // texture of this gameobject
    MeshRenderer* m_mesh;                                             // mesh of this gameobject
    Camera* m_camera = Camera::instance();                            // camera instance
+   Light* m_light = Light::instance();
 };
