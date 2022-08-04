@@ -19,6 +19,7 @@ public:
 private:
    void addGameObjects();                                            // add gameobjects
    void handleInput(float deltaTime);                                // handle input
+   void ui();                                                        // build ui
    bool init();                                                      // initalizes the programm   
    void terminate();                                                 // terminates the programm 
    bool createContext();                                             // creates GLFW window used as render context 

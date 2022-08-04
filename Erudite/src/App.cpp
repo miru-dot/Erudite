@@ -7,6 +7,10 @@
 #include "Mesh.h"
 #include "GameObject.h"
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
+
 App::App() {}
 
 App::~App() 
@@ -22,16 +26,23 @@ void App::run()
 	if (!init())
 		return;
 
-	OpenGL::enable(GL_DEPTH_TEST);
-	//OpenGL::enable(GL_CULL_FACE);
-	//OpenGL::frontFace(GL_CW);
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui_ImplGlfw_InitForOpenGL(m_window, true);
+	ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
 
+	ImGui::StyleColorsDark();
+
+	OpenGL::enable(GL_DEPTH_TEST);
+	OpenGL::enable(GL_CULL_FACE);
+	OpenGL::frontFace(GL_CW);
 	OpenGL::enable(GL_BLEND);
 	OpenGL::blendFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	OpenGL::polygonMode(GL_FILL);
 
 	addGameObjects();
+
+	glm::vec3* pos = new glm::vec3(1.0f, 1.0f, 1.0f);
 
 	float deltaTime = 0.0f;
 	while (!glfwWindowShouldClose(m_window))
@@ -42,17 +53,18 @@ void App::run()
 
 		OpenGL::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		GameObject* object = m_scene->get("Fancy Cube");
-		if (object) 
-		{
-			float speed = 20 * deltaTime;
-			object->m_transform->m_rotation->y += speed;
-			object->m_transform->m_rotation->z += speed;
-		}
-		
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
 		m_scene->render();
 
 		checkGLError();
+
+		ui();
+
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		glfwSwapBuffers(m_window);
 		glfwPollEvents();
@@ -90,6 +102,31 @@ void App::addGameObjects()
 	cone->m_transform->m_position->x = 5;
 	m_scene->add(cone);
 	*/
+}
+
+/// <summary>
+/// Build imGUI ui
+/// </summary>
+void App::ui()
+{
+	GameObject* cube = m_scene->get("Fancy Cube");
+
+	ImGui::Begin("Debug");
+
+	ImGui::Text("Cube");
+	ImGui::SliderFloat3("Translation", (float*)cube->m_transform->m_position, -15.0f, 15.0f);
+	ImGui::SliderFloat3("Rotation", (float*)cube->m_transform->m_rotation, 0.0, 360.0f);
+	ImGui::SliderFloat3("Scale", (float*)cube->m_transform->m_scale, 0.0f, 10.0f);
+
+	ImGui::NewLine();
+
+	ImGui::Text("Light");
+	ImGui::SliderFloat3("Position", (float*)m_light->m_transform->m_position, -15.0f, 15.0f);
+	ImGui::ColorEdit3("Light Color", (float*)&m_light->m_lightData->m_color);
+	ImGui::ColorEdit3("Ambient Color", (float*)&m_light->m_lightData->m_ambientColor);
+
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::End();
 }
 
 /// <summary>
@@ -143,7 +180,13 @@ bool App::init()
 void App::terminate()
 {
 	Camera::instance()->destroy();
+	Light::instance()->destroy();
 	delete m_scene;
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+	
 	glfwTerminate();
 }
 

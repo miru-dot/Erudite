@@ -13,6 +13,15 @@
     <Filter Include="Resources\Textures">
       <UniqueIdentifier>{8671a161-7f2a-4348-93a0-47c8dda29d40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vendor">
+      <UniqueIdentifier>{8d1f409d-7c45-4c51-a387-d77b45c11018}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\imgui">
+      <UniqueIdentifier>{fdb218d7-5083-421e-8576-208f5f2610a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendor\stb_image">
+      <UniqueIdentifier>{ccdd0314-48ff-4991-99d7-7d3ac4a7526d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\App.h">
@@ -36,9 +45,6 @@
     <ClInclude Include="src\Texture.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="vendor\includes\stb_image\stb_image.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameObject.h">
       <Filter>Header</Filter>
     </ClInclude>
@@ -48,7 +54,6 @@
     <ClInclude Include="src\Transform.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="src\Camera.h">
       <Filter>Header</Filter>
     </ClInclude>
@@ -63,6 +68,36 @@
     </ClInclude>
     <ClInclude Include="src\Light.h">
       <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\includes\imgui\imconfig.h">
+      <Filter>Vendor\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\includes\imgui\imgui.h">
+      <Filter>Vendor\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\includes\imgui\imgui_impl_glfw.h">
+      <Filter>Vendor\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\includes\imgui\imgui_impl_opengl3.h">
+      <Filter>Vendor\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\includes\imgui\imgui_impl_opengl3_loader.h">
+      <Filter>Vendor\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\includes\imgui\imgui_internal.h">
+      <Filter>Vendor\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\includes\imgui\imstb_rectpack.h">
+      <Filter>Vendor\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\includes\imgui\imstb_textedit.h">
+      <Filter>Vendor\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\includes\imgui\imstb_truetype.h">
+      <Filter>Vendor\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\includes\stb_image\stb_image.h">
+      <Filter>Vendor\stb_image</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +154,27 @@
     </ClCompile>
     <ClCompile Include="src\Light.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\includes\imgui\imgui.cpp">
+      <Filter>Vendor\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\includes\imgui\imgui_demo.cpp">
+      <Filter>Vendor\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\includes\imgui\imgui_draw.cpp">
+      <Filter>Vendor\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\includes\imgui\imgui_impl_glfw.cpp">
+      <Filter>Vendor\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\includes\imgui\imgui_impl_opengl3.cpp">
+      <Filter>Vendor\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\includes\imgui\imgui_tables.cpp">
+      <Filter>Vendor\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\includes\imgui\imgui_widgets.cpp">
+      <Filter>Vendor\imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
