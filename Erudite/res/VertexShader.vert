@@ -12,6 +12,7 @@ out vec4 io_fragmentColor;
 out vec2 io_texCoord;
 
 out mat4 io_lightData;
+out float io_isDirectionalLight;
 
 uniform mat4 u_model;
 uniform mat4 u_view;
@@ -19,6 +20,7 @@ uniform mat4 u_projection;
 
 uniform mat4 u_lightData;
 uniform mat4 u_tangentToWorld;
+uniform float u_isDirectionalLight;
 
 void main()
 {
@@ -28,6 +30,7 @@ void main()
     io_fragmentColor = color;
     io_texCoord = texCoord;
     io_lightData = u_lightData;
+    io_isDirectionalLight = u_isDirectionalLight;
 
     gl_Position = u_projection * u_view * u_model * vec4(position, 1.0f);
 };

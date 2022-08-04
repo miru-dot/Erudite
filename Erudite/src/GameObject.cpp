@@ -55,6 +55,7 @@ void GameObject::transform()
 
    m_shader->setUMat4("u_lightData", m_light->lightData());
    m_shader->setUMat4("u_tangentToWorld", glm::transpose(glm::inverse(model)));
+   m_shader->setU1f("u_isDirectionalLight", m_light->m_lightData->m_isDirectionalLight);
 }
 
 /// <summary>

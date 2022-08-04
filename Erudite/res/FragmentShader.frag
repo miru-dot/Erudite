@@ -9,6 +9,7 @@ in vec4 io_fragmentColor;
 in vec2 io_texCoord;
 
 in mat4 io_lightData;
+in float io_isDirectionalLight;
 
 uniform sampler2D u_texture;
 
@@ -45,9 +46,14 @@ void main()
     vec3 lightColor = io_lightData[2].xyz;
     vec3 viewPosition = io_lightData[3].xyz;
     
+    vec3 lightDirection = vec3(0.0f, 1.0f, 0.0f);
+    if(io_isDirectionalLight == 1) 
+        lightDirection = normalize(lightPositon);
+    else 
+        lightDirection = normalize(lightPositon - io_worldSpacePosition);
+
     vec3 normal = normalize(io_worldSpaceNormal);
     vec3 viewDirection = normalize(viewPosition - io_worldSpacePosition);
-    vec3 lightDirection = normalize(lightPositon - io_worldSpacePosition);
     vec3 reflectionDirection = reflect(lightDirection, normal);
 
     vec3 ambient = ambientReflection(ambientIntensity, ambientFactor, ambientLightColor);

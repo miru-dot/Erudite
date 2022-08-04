@@ -21,7 +21,6 @@ private:
    void handleInput(float deltaTime);                                // handle input
    void ui();                                                        // build ui
    bool init();                                                      // initalizes the programm   
-   void terminate();                                                 // terminates the programm 
    bool createContext();                                             // creates GLFW window used as render context 
 
    static void framebufferSizeCallback(GLFWwindow* window,
@@ -34,6 +33,7 @@ private:
    Camera* m_camera = Camera::instance();                            // camera
    Light* m_light = Light::instance();                               // light
    Scene* m_scene = new Scene();                                     // scene
+   glm::vec4 m_backgroundColor;                                      // background color
    const int m_width = 1920;                                         // window width
    const int m_height = 1080;                                        // window height
 };

@@ -11,11 +11,27 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
-App::App() {}
+/// <summary>
+/// Constructor
+/// </summary>
+App::App() :
+	m_backgroundColor(glm::vec4(0.25f, 0.25f, 0.45f, 1.0f))
+{}
 
+/// <summary>
+/// Destructor
+/// </summary>
 App::~App() 
 {
-	terminate();
+	Camera::instance()->destroy();
+	Light::instance()->destroy();
+	delete m_scene;
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+
+	glfwTerminate();
 }
 
 /// <summary>
@@ -51,6 +67,7 @@ void App::run()
 
 		handleInput(deltaTime);
 
+		glClearColor(m_backgroundColor.r, m_backgroundColor.g, m_backgroundColor.b, m_backgroundColor.a);
 		OpenGL::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		ImGui_ImplOpenGL3_NewFrame();
@@ -85,11 +102,11 @@ void App::addGameObjects()
 	m_scene->add(triangle);
 	*/
 
-	// rectangle
+	/* rectangle
 	GameObject* rectangle = new GameObject("Snowy Rectangle", Mesh::rectangle(1.5f, 2.0f), new Texture("res/textures/snow-forest.jpg"));
 	rectangle->m_transform->m_position->x = 5;
 	rectangle->m_transform->m_rotation->x = -90;
-	m_scene->add(rectangle);
+	m_scene->add(rectangle);*/
 
 	// cube
 	GameObject* cube = new GameObject("Fancy Cube", Mesh::cube(1.0f, 1.0f, 1.0f), new Texture("res/textures/wood.png"));
@@ -113,17 +130,45 @@ void App::ui()
 
 	ImGui::Begin("Debug");
 
+	ImGui::BeginGroup();
+	ImGui::Text("Window");
+	ImGui::ColorEdit3("Background Color", (float*)&m_backgroundColor);
+	ImGui::EndGroup();
+
+	ImGui::NewLine();
+
+	ImGui::BeginGroup();
+   ImGui::Text("Light");
+	if(m_light->m_lightData->m_isDirectionalLight)
+		ImGui::SliderFloat3("Direction", (float*)m_light->m_transform->m_position, -15.0f, 15.0f);
+	else
+		ImGui::SliderFloat3("Position", (float*)m_light->m_transform->m_position, -15.0f, 15.0f);
+	ImGui::ColorEdit3("Light Color", (float*)&m_light->m_lightData->m_color);
+	ImGui::ColorEdit3("Ambient Color", (float*)&m_light->m_lightData->m_ambientColor);
+	ImGui::SliderFloat("Ambient Intensity", &m_light->m_lightData->m_ambientIntensity, 0.0f, 1.0f);
+	ImGui::SliderFloat("Diffuse Intensity", &m_light->m_lightData->m_diffuseIntensity, 0.0f, 1.0f);
+	ImGui::SliderFloat("Specular Intensity", &m_light->m_lightData->m_specularIntensity, 0.0f, 1.0f);
+	ImGui::SliderFloat("Hardness", &m_light->m_lightData->m_hardness, 0.0f, 500.0f);
+	ImGui::Checkbox("Is Directional", &m_light->m_lightData->m_isDirectionalLight);
+	ImGui::EndGroup();
+	
+	ImGui::NewLine();
+	
+	ImGui::BeginGroup();
+	ImGui::Text("Camera");
+	ImGui::SliderFloat3("Camera Translation", (float*)m_camera->m_transform->m_position, -15.0f, 15.0f);
+	ImGui::SliderFloat3("Camera Rotation", (float*)m_camera->m_transform->m_rotation, 0.0f, 360.0f);
+	ImGui::SliderFloat3("Camera Scale", (float*)m_camera->m_transform->m_scale, 0.0f, 10.0f);
+	ImGui::EndGroup();
+
+	ImGui::NewLine();
+
+	ImGui::BeginGroup();
 	ImGui::Text("Cube");
 	ImGui::SliderFloat3("Translation", (float*)cube->m_transform->m_position, -15.0f, 15.0f);
 	ImGui::SliderFloat3("Rotation", (float*)cube->m_transform->m_rotation, 0.0, 360.0f);
 	ImGui::SliderFloat3("Scale", (float*)cube->m_transform->m_scale, 0.0f, 10.0f);
-
-	ImGui::NewLine();
-
-	ImGui::Text("Light");
-	ImGui::SliderFloat3("Position", (float*)m_light->m_transform->m_position, -15.0f, 15.0f);
-	ImGui::ColorEdit3("Light Color", (float*)&m_light->m_lightData->m_color);
-	ImGui::ColorEdit3("Ambient Color", (float*)&m_light->m_lightData->m_ambientColor);
+	ImGui::EndGroup();
 
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::End();
@@ -172,22 +217,6 @@ bool App::init()
 	std::cout << "GL version: " << glGetString(GL_VERSION) << std::endl;
 
 	return true;
-}
-
-/// <summary>
-/// Terminates the app properly
-/// </summary>
-void App::terminate()
-{
-	Camera::instance()->destroy();
-	Light::instance()->destroy();
-	delete m_scene;
-
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
-	
-	glfwTerminate();
 }
 
 /// <summary>

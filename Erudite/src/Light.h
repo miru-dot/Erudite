@@ -12,6 +12,7 @@ struct LightData
 
    glm::vec3 m_color = glm::vec3(1.0f, 1.0f, 1.0f);
    glm::vec3 m_ambientColor = glm::vec3(0.75f, 0.75f, 1.0f);
+   bool m_isDirectionalLight = false;
 };
 
 class Light 
@@ -28,7 +29,7 @@ public:
 
    LightData* m_lightData;                                           // light data
    Transform* m_transform;                                           // light transform
-   Camera* m_camera = Camera::instance();                            // camera 
+   Camera* m_camera = Camera::instance();                            // camera
 private:
    Light();                                                          // constructor
    static inline Light* m_instance;                                  // this instance
