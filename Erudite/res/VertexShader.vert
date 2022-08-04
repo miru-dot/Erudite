@@ -22,14 +22,12 @@ uniform mat4 u_tangentToWorld;
 
 void main()
 {
-    vec4 worldSpacePosition = u_model * vec4(position, 1.0f);
-
+    io_worldSpacePosition = vec3(u_model * vec4(position, 1.0f));
     io_worldSpaceNormal = (u_tangentToWorld * vec4(normal, 0.0f)).xyz;
-    io_worldSpacePosition = worldSpacePosition.xyz;
 
     io_fragmentColor = color;
     io_texCoord = texCoord;
     io_lightData = u_lightData;
 
-    gl_Position = u_projection * u_view * worldSpacePosition;
+    gl_Position = u_projection * u_view * u_model * vec4(position, 1.0f);
 };

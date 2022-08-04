@@ -19,8 +19,7 @@ vec3 ambientReflection(float intensity, float factor, vec3 lightColor)
 
 vec3 diffuseReflection(float intensity, float factor, vec3 lightColor, vec3 lightDirection, vec3 normal) 
 {
-    float p = clamp(dot(lightDirection, normal), 0.0f, 1.0f);
-    return p * intensity * factor * lightColor;
+    return clamp(dot(lightDirection, normal), 0.0f, 1.0f) * intensity * factor * lightColor;
 }
 
 vec3 specularReflection(float intensity, float factor, vec3 lightColor, float hardness, vec3 viewDirection, vec3 reflectionDirection)
@@ -49,13 +48,12 @@ void main()
     vec3 normal = normalize(io_worldSpaceNormal);
     vec3 viewDirection = normalize(viewPosition - io_worldSpacePosition);
     vec3 lightDirection = normalize(lightPositon - io_worldSpacePosition);
-    vec3 reflectionDirection = reflect(-lightDirection, normal);
+    vec3 reflectionDirection = reflect(lightDirection, normal);
 
     vec3 ambient = ambientReflection(ambientIntensity, ambientFactor, ambientLightColor);
     vec3 diffuse = diffuseReflection(diffuseIntensity, diffuseFactor, lightColor, lightDirection, normal);
     vec3 specular = specularReflection(specularIntensity, specularFactor, lightColor, hardness, viewDirection, reflectionDirection);
 
-    // color
     vec3 texColor = texture(u_texture, io_texCoord).rgb;
     vec3 finalColor = (ambient + diffuse + specular) * texColor * io_fragmentColor.rgb;
 

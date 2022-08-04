@@ -138,15 +138,15 @@ MeshRenderer* Mesh::cube(float width, float length, float hight, glm::vec4 color
 	float v = 0.33333333;
 
 	std::vector<glm::vec3> normals = {
-		glm::vec3(-v,  v, -v),	// front left top
-		glm::vec3( v,  v, -v),	// front right top
-		glm::vec3(-v, -v, -v),	// front left bottom
-		glm::vec3( v, -v, -v),	// front right bottom
-
-		glm::vec3(-v,  v, v),	// back left top
-		glm::vec3( v,  v, v),	// back right top
-		glm::vec3(-v, -v, v),	// back left bottom
-		glm::vec3( v, -v, v),	// back right bottom
+		glm::vec3(-v,  v, v),	// front left top
+		glm::vec3( v,  v, v),	// front right top
+		glm::vec3(-v, -v, v),	// front left bottom
+		glm::vec3( v, -v, v),	// front right bottom
+							   
+		glm::vec3(-v,  v,  -v),	// back left top
+		glm::vec3(v,  v,  -v),	// back right top
+		glm::vec3(-v, -v,  -v),	// back left bottom
+		glm::vec3(v, -v,  -v),	// back right bottom
 
 		/*
 		glm::vec3(0.0f, 1.0f, 0.0f),
