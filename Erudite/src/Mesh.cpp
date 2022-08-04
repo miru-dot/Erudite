@@ -25,8 +25,6 @@ MeshRenderer* Mesh::triangle(float size, glm::vec4 color)
 		glm::vec2(0.0f, 1.0f)
 	};
 
-	std::vector<glm::vec3> normals(3, glm::vec3(0.0f, 0.0f, 1.0));
-
 	std::vector<unsigned int> indices = {
 		0, 1, 2
 	};
@@ -63,15 +61,13 @@ MeshRenderer* Mesh::rectangle(float width, float length, glm::vec4 color)
 		glm::vec2(0.0f, 0.0f)
 	};
 
-	std::vector<glm::vec3> normals(4, glm::vec3(0.0f, 0.0f, 1.0));
-
 	std::vector<unsigned int> indices = {
 		0, 1, 2,
 		1, 3, 2
 	};
 
 	MeshRenderer* mesh = new MeshRenderer();
-	return mesh->positions(positions)->colors(colors)->uv(uv)->normals(normals)->indices(indices);
+	return mesh->positions(positions)->colors(colors)->uv(uv)->indices(indices);
 }
 
 /// <summary>
@@ -147,17 +143,6 @@ MeshRenderer* Mesh::cube(float width, float length, float hight, glm::vec4 color
 		glm::vec3(v,  v,  -v),	// back right top
 		glm::vec3(-v, -v,  -v),	// back left bottom
 		glm::vec3(v, -v,  -v),	// back right bottom
-
-		/*
-		glm::vec3(0.0f, 1.0f, 0.0f),
-		glm::vec3(0.0f, 1.0f, 0.0f),
-		glm::vec3(0.0f, 1.0f, 0.0f),
-		glm::vec3(0.0f, 1.0f, 0.0f),
-
-		glm::vec3(0.0f, -1.0f, 0.0f),
-		glm::vec3(0.0f, -1.0f, 0.0f),
-		glm::vec3(0.0f, -1.0f, 0.0f),
-		glm::vec3(0.0f, -1.0f, 0.0f), */
 
 		glm::vec3(-v,  v, v),	// back left top
 		glm::vec3( v,  v, v),	// back right top

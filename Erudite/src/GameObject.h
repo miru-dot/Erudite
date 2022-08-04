@@ -22,6 +22,7 @@ public:
    Shader* m_shader;                                                 // shader instance
    Transform* m_transform;                                           // transform of this gameobject
    std::string m_name;                                               // name of this gameobject
+   bool m_active;                                                    // active
 private:
    const unsigned int m_textureSlot = 0;                             // used texture slot
    Texture* m_texture;                                               // texture of this gameobject

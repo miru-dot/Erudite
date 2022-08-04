@@ -23,8 +23,11 @@ void Scene::render()
 {
 	for (GameObject* object : *m_gameObjects)
 	{
-		object->transform();
-		object->render();
+		if (object->m_active) 
+		{
+			object->transform();
+			object->render();
+		}
 	}
 }
 

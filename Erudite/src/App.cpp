@@ -102,11 +102,11 @@ void App::addGameObjects()
 	m_scene->add(triangle);
 	*/
 
-	/* rectangle
+	//rectangle
 	GameObject* rectangle = new GameObject("Snowy Rectangle", Mesh::rectangle(1.5f, 2.0f), new Texture("res/textures/snow-forest.jpg"));
-	rectangle->m_transform->m_position->x = 5;
+	rectangle->m_transform->m_position->x = -5;
 	rectangle->m_transform->m_rotation->x = -90;
-	m_scene->add(rectangle);*/
+	m_scene->add(rectangle);
 
 	// cube
 	GameObject* cube = new GameObject("Fancy Cube", Mesh::cube(1.0f, 1.0f, 1.0f), new Texture("res/textures/wood.png"));
@@ -174,7 +174,10 @@ void App::ui()
 		ImGui::DragFloat3((name + " Translation").c_str(), (float*)object->m_transform->m_position, 0.1f);
 		ImGui::SliderFloat3((name + " Rotation").c_str(), (float*)object->m_transform->m_rotation, 0.0f, 360.0f);
 		ImGui::DragFloat3((name + " Scale").c_str(), (float*)object->m_transform->m_scale, 0.1f, 0.0);
+		ImGui::Checkbox(("Enable " + name).c_str(), &object->m_active);
 		ImGui::EndGroup();
+
+		ImGui::NewLine();
 	}
 	ImGui::End();
 }

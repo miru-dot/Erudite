@@ -7,7 +7,7 @@
 /// <param name="mesh">gameobject mesh</param>
 /// <param name="texture">gameobject texture</param>
 GameObject::GameObject(std::string name, MeshRenderer* mesh, Texture* texture) :
-   m_name(name), m_mesh(mesh), m_texture(texture), m_transform(new Transform())
+   m_name(name), m_mesh(mesh), m_texture(texture), m_transform(new Transform()), m_active(true)
 {
    m_shader = new Shader("res/VertexShader.vert", "res/FragmentShader.frag");
    m_shader->bind();
