@@ -112,13 +112,12 @@ void App::addGameObjects()
 	GameObject* cube = new GameObject("Fancy Cube", Mesh::cube(1.0f, 1.0f, 1.0f), new Texture("res/textures/wood.png"));
 	m_scene->add(cube);
 
-	/* cone
+	//cone
 	MeshRenderer* coneMesh = Mesh::cone(2.5f, 1.0f, 100, glm::vec4(0.7, 0.8, 0.9, 1.0));
 	coneMesh->primitive(GL_LINES);
 	GameObject* cone = new GameObject("Line Cone", coneMesh, new Texture("res/textures/000010806.jpg"));
 	cone->m_transform->m_position->x = 5;
 	m_scene->add(cone);
-	*/
 }
 
 /// <summary>
@@ -126,9 +125,7 @@ void App::addGameObjects()
 /// </summary>
 void App::ui()
 {
-	GameObject* cube = m_scene->get("Fancy Cube");
-
-	ImGui::Begin("Debug");
+	ImGui::Begin("Settings");
 
 	ImGui::BeginGroup();
 	ImGui::Text("Window");
@@ -140,15 +137,15 @@ void App::ui()
 	ImGui::BeginGroup();
    ImGui::Text("Light");
 	if(m_light->m_lightData->m_isDirectionalLight)
-		ImGui::SliderFloat3("Direction", (float*)m_light->m_transform->m_position, -15.0f, 15.0f);
+		ImGui::DragFloat3("Direction", (float*)m_light->m_transform->m_position, 0.1f, -1.0f, 1.0f);
 	else
-		ImGui::SliderFloat3("Position", (float*)m_light->m_transform->m_position, -15.0f, 15.0f);
+		ImGui::DragFloat3("Position", (float*)m_light->m_transform->m_position, 0.1f);
 	ImGui::ColorEdit3("Light Color", (float*)&m_light->m_lightData->m_color);
 	ImGui::ColorEdit3("Ambient Color", (float*)&m_light->m_lightData->m_ambientColor);
 	ImGui::SliderFloat("Ambient Intensity", &m_light->m_lightData->m_ambientIntensity, 0.0f, 1.0f);
 	ImGui::SliderFloat("Diffuse Intensity", &m_light->m_lightData->m_diffuseIntensity, 0.0f, 1.0f);
 	ImGui::SliderFloat("Specular Intensity", &m_light->m_lightData->m_specularIntensity, 0.0f, 1.0f);
-	ImGui::SliderFloat("Hardness", &m_light->m_lightData->m_hardness, 0.0f, 500.0f);
+	ImGui::DragFloat("Hardness", &m_light->m_lightData->m_hardness, 5.0f);
 	ImGui::Checkbox("Is Directional", &m_light->m_lightData->m_isDirectionalLight);
 	ImGui::EndGroup();
 	
@@ -156,21 +153,29 @@ void App::ui()
 	
 	ImGui::BeginGroup();
 	ImGui::Text("Camera");
-	ImGui::SliderFloat3("Camera Translation", (float*)m_camera->m_transform->m_position, -15.0f, 15.0f);
+	ImGui::DragFloat3("Camera Translation", (float*)m_camera->m_transform->m_position, 0.1f);
 	ImGui::SliderFloat3("Camera Rotation", (float*)m_camera->m_transform->m_rotation, 0.0f, 360.0f);
-	ImGui::SliderFloat3("Camera Scale", (float*)m_camera->m_transform->m_scale, 0.0f, 10.0f);
-	ImGui::EndGroup();
-
-	ImGui::NewLine();
-
-	ImGui::BeginGroup();
-	ImGui::Text("Cube");
-	ImGui::SliderFloat3("Translation", (float*)cube->m_transform->m_position, -15.0f, 15.0f);
-	ImGui::SliderFloat3("Rotation", (float*)cube->m_transform->m_rotation, 0.0, 360.0f);
-	ImGui::SliderFloat3("Scale", (float*)cube->m_transform->m_scale, 0.0f, 10.0f);
+	ImGui::DragFloat3("Camera Scale", (float*)m_camera->m_transform->m_scale, 0.1f, 0.0);
 	ImGui::EndGroup();
 
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::End();
+
+	ImGui::Begin("Scene");
+	for (auto object : *m_scene->all())
+	{
+		if (!object)
+			continue;
+
+		std::string name = object->m_name;
+
+		ImGui::BeginGroup();
+		ImGui::Text(name.c_str());
+		ImGui::DragFloat3((name + " Translation").c_str(), (float*)object->m_transform->m_position, 0.1f);
+		ImGui::SliderFloat3((name + " Rotation").c_str(), (float*)object->m_transform->m_rotation, 0.0f, 360.0f);
+		ImGui::DragFloat3((name + " Scale").c_str(), (float*)object->m_transform->m_scale, 0.1f, 0.0);
+		ImGui::EndGroup();
+	}
 	ImGui::End();
 }
 
@@ -270,7 +275,7 @@ void App::keyPressedCallback(GLFWwindow* window, int key, int scancode, int acti
 	if (window == nullptr)
 		return;
 
-	if (key == GLFW_KEY_TAB && action == GLFW_PRESS)
+	if (key == GLFW_KEY_U && action == GLFW_PRESS)
 		OpenGL::switchPolygonMode();
 	else if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);

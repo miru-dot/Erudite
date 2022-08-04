@@ -72,6 +72,15 @@ GameObject* Scene::get(std::string name)
 }
 
 /// <summary>
+/// Returns all Gamobjects
+/// </summary>
+/// <returns></returns>
+std::vector<GameObject*>* Scene::all()
+{
+	return m_gameObjects;
+}
+
+/// <summary>
 /// Clears / deletes all gameobjects from the scene
 /// </summary>
 void Scene::clear()
