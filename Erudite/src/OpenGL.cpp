@@ -19,7 +19,7 @@ void OpenGL::drawElements(unsigned int mode, const VertexArrayObject& vertexArra
 /// <summary>
 /// Clear buffers to preset values
 /// </summary>
-/// <param name="clear">Bitwise OR of masks that indicate the buffers to be cleared. The three masks are 
+/// <param name="mask">Bitwise OR of masks that indicate the buffers to be cleared. The three masks are 
 /// GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT, and GL_STENCIL_BUFFER_BIT</param>
 void OpenGL::clear(unsigned int mask)
 {
