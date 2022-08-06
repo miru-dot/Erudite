@@ -27,6 +27,16 @@ void OpenGL::clear(unsigned int mask)
 }
 
 /// <summary>
+/// Specify clear values for the color buffers
+/// </summary>
+/// <param name="color">Specify the red, green, blue, and alpha values used when 
+/// the color buffers are cleared. The initial values are all 0 (black).</param>
+void OpenGL::clearColor(glm::vec4 color)
+{
+	glClearColor(color.r, color.g, color.b, color.a);
+}
+
+/// <summary>
 /// Controls the interpretation of polygons for rasterization
 /// </summary>
 /// <param name="mode">GL_POINT, GL_LINE or GL_FILL</param>

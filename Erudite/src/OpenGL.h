@@ -13,6 +13,7 @@ public:
       const VertexArrayObject& vertexArray, 
       const ElementBufferObject& elementBuffer);                     // render primitives from array data
    static void clear(unsigned int mask);                             // clear buffers to preset values
+   static void clearColor(glm::vec4 color);                          // clear color set background color
    static void polygonMode(unsigned int mode);                       // controls the interpretation of polygons for rasterization
    static void switchPolygonMode();                                  // switches polygon mode back and forth for GL_FILL and GL_LINE
    static void enable(unsigned int cap);                             // enable or disable server-side GL capabilities

@@ -76,8 +76,7 @@ MeshRenderer* Mesh::rectangle(float width, float length, glm::vec4 color)
 /// <param name="width">cube width</param>
 /// <param name="length">cube length</param>
 /// <param name="hight">cube hight</param>
-/// <param name="top">cube top color</param>
-/// <param name="bottom">cube bottom color</param>
+/// <param name="color">cube color</param>
 /// <returns>cube mesh</returns>
 MeshRenderer* Mesh::cube(float width, float length, float hight, glm::vec4 color)
 {

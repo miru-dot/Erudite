@@ -42,13 +42,6 @@ void App::run()
 	if (!init())
 		return;
 
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGui_ImplGlfw_InitForOpenGL(m_window, true);
-	ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
-
-	ImGui::StyleColorsDark();
-
 	OpenGL::enable(GL_DEPTH_TEST);
 	OpenGL::enable(GL_CULL_FACE);
 	OpenGL::frontFace(GL_CW);
@@ -67,7 +60,7 @@ void App::run()
 
 		handleInput(deltaTime);
 
-		glClearColor(m_backgroundColor.r, m_backgroundColor.g, m_backgroundColor.b, m_backgroundColor.a);
+		OpenGL::clearColor(m_backgroundColor);
 		OpenGL::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		ImGui_ImplOpenGL3_NewFrame();
@@ -224,6 +217,13 @@ bool App::init()
 
 	std::cout << "GL version: " << glGetString(GL_VERSION) << std::endl;
 
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui_ImplGlfw_InitForOpenGL(m_window, true);
+	ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
+
+	ImGui::StyleColorsDark();
+
 	return true;
 }
 
@@ -238,7 +238,7 @@ bool App::createContext()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	m_window = glfwCreateWindow(m_width, m_height, "OPENGL", NULL, NULL);
+	m_window = glfwCreateWindow(m_width, m_height, "Erudite", NULL, NULL);
 	if (m_window == nullptr)
 		return false;
 
@@ -278,7 +278,7 @@ void App::keyPressedCallback(GLFWwindow* window, int key, int scancode, int acti
 	if (window == nullptr)
 		return;
 
-	if (key == GLFW_KEY_U && action == GLFW_PRESS)
+	if (key == GLFW_KEY_R && action == GLFW_PRESS)
 		OpenGL::switchPolygonMode();
 	else if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
