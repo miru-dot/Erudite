@@ -79,7 +79,7 @@ void App::run()
 		glfwSwapBuffers(m_window);
 		glfwPollEvents();
 
-		deltaTime = glfwGetTime() - start;
+		deltaTime = (float)glfwGetTime() - start;
 	}
 }
 
@@ -106,8 +106,8 @@ void App::addGameObjects()
 	m_scene->add(cube);
 
 	//cone
-	MeshRenderer* coneMesh = Mesh::cone(2.5f, 1.0f, 100, glm::vec4(0.7, 0.8, 0.9, 1.0));
-	coneMesh->primitive(GL_LINES);
+	MeshRenderer* coneMesh = Mesh::cone(2.5f, 1.0f, 128, glm::vec4(0.7, 0.8, 0.9, 1.0));
+	//coneMesh->primitive(GL_LINES);
 	GameObject* cone = new GameObject("Line Cone", coneMesh, new Texture("res/textures/000010806.jpg"));
 	cone->m_transform->m_position->x = 5;
 	m_scene->add(cone);
@@ -224,6 +224,20 @@ bool App::init()
 
 	ImGui::StyleColorsDark();
 
+	/*
+	OpenGL::enable(GL_DEBUG_OUTPUT);
+	OpenGL::enable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+
+	OpenGL::DebugMessageCallback(
+		[](GLenum source, GLenum type, GLuint id, GLenum severity, 
+		GLsizei length, const GLchar* message, const void* userParam) 
+		{
+			fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+				(type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
+		}, 
+		nullptr
+	);*/
+
 	return true;
 }
 
@@ -234,8 +248,8 @@ bool App::init()
 bool App::createContext()
 {
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4.6);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4.6);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	m_window = glfwCreateWindow(m_width, m_height, "Erudite", NULL, NULL);
@@ -289,7 +303,7 @@ void App::keyPressedCallback(GLFWwindow* window, int key, int scancode, int acti
 /// </summary>
 void App::checkGLError()
 {
-	while (GLenum error = glGetError()) 
+	while (GLenum error = OpenGL::getError()) 
 	{
 		switch (error) 
 		{
@@ -322,4 +336,9 @@ void App::checkGLError()
 			break;
 		}	
 	}
+}
+
+void App::errorMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+{
+
 }

@@ -222,19 +222,21 @@ MeshRenderer* Mesh::cone(float hight, float radius, unsigned int slices, glm::ve
 	unsigned int bottom = 1;
 	unsigned int firstSlice = 2;
 	unsigned int peak = 0;
-
 	unsigned int indicesIndex = 2;
+	unsigned int traversedSlices = 0;
 	for (int i = 0; i < slices; i++)
 	{
+		traversedSlices++;
+
 		unsigned int tmp = indicesIndex + 1;
 
 		indices.push_back(peak);	// vertex 0 is the peak of the cone
-		indices.push_back(tmp > slices ? firstSlice : tmp);
 		indices.push_back(indicesIndex);
+		indices.push_back(traversedSlices >= slices ? firstSlice : tmp);
 
 		indices.push_back(bottom);	// vertex 1 is the bottom of the cone
-		indices.push_back(tmp > slices ? firstSlice : tmp);
 		indices.push_back(indicesIndex);
+		indices.push_back(traversedSlices >= slices ? firstSlice : tmp);
 
 		indicesIndex++;
 	}

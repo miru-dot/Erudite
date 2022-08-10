@@ -6,7 +6,7 @@
 #include "VertexArrayObject.h"
 #include "ElementBufferObject.h"
 
-static class OpenGL
+class OpenGL
 {
 public:
    static void drawElements(unsigned int mode, 
@@ -20,4 +20,6 @@ public:
    static void blendFunction(unsigned int sfactor, 
       unsigned int dfactor);                                         // Specify pixel arithmetic
    static void frontFace(unsigned int mode);                         // Define front- and back-facing polygons
+   static unsigned int getError();                                   //
+   static void DebugMessageCallback(GLDEBUGPROC callback, void* userParam);
 }; 

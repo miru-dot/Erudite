@@ -169,3 +169,46 @@ void OpenGL::frontFace(unsigned int mode)
 {
 	glFrontFace(mode);
 }
+
+/// <summary>
+/// Return error information
+/// </summary>
+/// <returns>
+/// GL_NO_ERROR
+/// No error has been recorded. The value of this symbolic constant is guaranteed to be 0.
+///  
+/// GL_INVALID_ENUM
+/// An unacceptable value is specified for an enumerated argument. The offending command is ignored and has no other side effect than to set the error flag.
+/// 
+/// GL_INVALID_VALUE
+/// A numeric argument is out of range. The offending command is ignored and has no other side effect than to set the error flag.
+/// 
+/// GL_INVALID_OPERATION
+/// The specified operation is not allowed in the current state. The offending command is ignored and has no other side effect than to set the error flag.
+/// 
+/// GL_INVALID_FRAMEBUFFER_OPERATION
+/// The framebuffer object is not complete. The offending command is ignored and has no other side effect than to set the error flag.
+/// 
+/// GL_OUT_OF_MEMORY
+/// There is not enough memory left to execute the command. The state of the GL is undefined, except for the state of the error flags, after this error is recorded.
+/// 
+/// GL_STACK_UNDERFLOW
+/// An attempt has been made to perform an operation that would cause an internal stack to underflow.
+/// 
+/// GL_STACK_OVERFLOW
+/// An attempt has been made to perform an operation that would cause an internal stack to overflow.
+/// </returns>
+unsigned int OpenGL::getError()
+{
+	return glGetError();
+}
+
+/// <summary>
+/// Specify a callback to receive debugging messages from the GL
+/// </summary>
+/// <param name="callback">The address of a callback function that will be called when a debug message is generated.</param>
+/// <param name="userParam">A user supplied pointer that will be passed on each invocation of callback.</param>
+void OpenGL::DebugMessageCallback(GLDEBUGPROC callback, void* userParam)
+{
+	glDebugMessageCallback(callback, userParam);
+}

@@ -28,6 +28,9 @@ private:
    static void keyPressedCallback(GLFWwindow* window, int key,
       int scancode, int action, int mods);                           // process keyboard input callback
    static void checkGLError();                                       // check for open gl errors it will output all errors
+   void errorMessageCallback(GLenum source, GLenum type, GLuint id,
+      GLenum severity, GLsizei length,
+      const GLchar* msg, const void* userParam);
 
    GLFWwindow* m_window = nullptr;                                   // the render context
    Camera* m_camera = Camera::instance();                            // camera

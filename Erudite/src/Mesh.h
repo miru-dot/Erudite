@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-static class Mesh {
+class Mesh {
 public:
    static MeshRenderer* triangle(float size, 
       glm::vec4 color = glm::vec4(1.0f));                            // constructs a triangle
