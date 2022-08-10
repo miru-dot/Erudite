@@ -235,8 +235,8 @@ MeshRenderer* Mesh::cone(float hight, float radius, unsigned int slices, glm::ve
 		indices.push_back(traversedSlices >= slices ? firstSlice : tmp);
 
 		indices.push_back(bottom);	// vertex 1 is the bottom of the cone
-		indices.push_back(indicesIndex);
 		indices.push_back(traversedSlices >= slices ? firstSlice : tmp);
+		indices.push_back(indicesIndex);
 
 		indicesIndex++;
 	}
